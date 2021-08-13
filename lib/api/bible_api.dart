@@ -18,4 +18,20 @@ class BibleAPI {
     final jsonBody = jsonDecode(body);
     return jsonBody['text'] as List<dynamic>;
   }
+
+  static Future<List> searchParagraph(String longLabel, int paragraph) async {
+    final uri = Uri.parse('http://ec2-3-38-12-80.ap-northeast-2.compute.amazonaws.com/search/$longLabel/$paragraph');
+    final response = await http.get(uri);
+    final body = response.body;
+    final jsonBody = jsonDecode(body);
+    return jsonBody['text'] as List<dynamic>;
+  }
+
+  static Future<List> searchLongLabel(String longLabel) async {
+    final uri = Uri.parse('http://ec2-3-38-12-80.ap-northeast-2.compute.amazonaws.com/search/$longLabel');
+    final response = await http.get(uri);
+    final body = response.body;
+    final jsonBody = jsonDecode(body);
+    return jsonBody['text'] as List<dynamic>;
+  }
 }
