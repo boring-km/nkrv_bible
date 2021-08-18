@@ -1,65 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:nkrv_bible/screen/intro_screen.dart';
+import 'package:nkrv_bible/screen/login_screen.dart';
+import 'package:nkrv_bible/screen/main_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(BibleApp());
 }
 
-class MyApp extends StatelessWidget {
+class BibleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '성경',
+      debugShowCheckedModeBanner: false,  // debug, release 라벨 제거
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => IntroScreen(),
+        '/login': (context) => LoginScreen(),
+        '/main': (context) => MainScreen()
+      },
     );
   }
 }
