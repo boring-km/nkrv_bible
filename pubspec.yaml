@@ -13,9 +13,12 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+
+  # http 통신
   http: 0.13.3
 
 dev_dependencies:
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
   test: ^1.16.3
