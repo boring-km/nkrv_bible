@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nkrv_bible/screen/bible_screen.dart';
 import 'package:nkrv_bible/screen/intro_screen.dart';
 import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main_screen.dart';
@@ -20,7 +21,8 @@ class BibleApp extends StatelessWidget {
       routes: {
         '/': (context) => IntroScreen(),
         '/login': (context) => LoginScreen(),
-        '/main': (context) => MainScreen()
+        '/main': (context) => MainScreen(),
+        '/bible': (context) => BibleScreen()
       },
     );
   }

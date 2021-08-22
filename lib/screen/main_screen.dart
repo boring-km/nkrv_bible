@@ -14,7 +14,14 @@ class _MainScreenState extends State<MainScreen> {
         child: Container(
           color: Colors.white,
           child: Center(
-            child: Text("메인화면"),
+            child: Column(
+              children: [
+                Text("메인화면"),
+                ElevatedButton(onPressed: () {
+                  Navigator.pushNamed(context, '/bible');
+                }, child: Text("성경 뷰어"),)
+              ],
+            ),
           ),
         ),
       ),
