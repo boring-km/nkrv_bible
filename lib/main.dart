@@ -3,8 +3,11 @@ import 'package:nkrv_bible/screen/bible_screen.dart';
 import 'package:nkrv_bible/screen/intro_screen.dart';
 import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main_screen.dart';
+import 'package:kakao_flutter_sdk/all.dart';
 
 void main() {
+  KakaoContext.clientId = "b17b8b41f1eed93570aaf9e64f53ded8";
+  KakaoContext.javascriptClientId = "b7b85e862024c88423792cfb8d0ada4b";
   runApp(BibleApp());
 }
 
