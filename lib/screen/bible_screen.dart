@@ -13,20 +13,20 @@ class _BibleScreenState extends State<BibleScreen> {
   @override
   Widget build(BuildContext context) {
 
-    double h = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-                color: CustomColors.beige,
-                border: Border.all(color: Colors.black, width: 2.0),
-                borderRadius: BorderRadius.circular(4.0)
-            ),
-            height: 0.9 * h,
-            child: ListView(
-                children: _buildTestamentList()
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: CustomColors.beige,
+                  border: Border.all(color: Colors.black, width: 2.0),
+                  borderRadius: BorderRadius.circular(4.0)
+              ),
+              child: ListView(
+                  children: _buildTestamentList()
+              ),
             ),
           ),
         ),
