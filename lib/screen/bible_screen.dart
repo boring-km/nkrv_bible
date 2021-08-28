@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
-import 'package:nkrv_bible/res/CustomColors.dart';
+import 'package:nkrv_bible/res/custom_colors.dart';
 
 class BibleScreen extends StatelessWidget {
 
@@ -45,7 +45,7 @@ class BibleScreen extends StatelessWidget {
         textList.add(
             Text(
               ot.label,
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             )
         );
       } else if (item is NewTestament) {
