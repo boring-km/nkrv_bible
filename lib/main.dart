@@ -25,7 +25,7 @@ class BibleApp extends StatelessWidget {
       routes: {
         '/': (context) => const IntroScreen(),
         '/login': (context) => const LoginScreen(),
-        '/main': (context) => MainScreen(),
+        '/main': (context) => const MainScreen(),
         '/bible': (context) => const BibleScreen()
       },
     );
