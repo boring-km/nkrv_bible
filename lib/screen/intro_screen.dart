@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class IntroScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _IntroScreenState();
-}
+class IntroScreen extends StatelessWidget {
 
-class _IntroScreenState extends State<IntroScreen> {
+  const IntroScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,13 +16,13 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("로딩화면"),
+                const Text("로딩화면"),
                 ElevatedButton(onPressed: () {
-                  Navigator.pushNamed(context, '/main');
-                }, child: Text("메인화면")),
+                  Get.toNamed('/main');
+                }, child: const Text("메인화면")),
                 ElevatedButton(onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                }, child: Text("로그인 화면"))
+                  Get.toNamed('/login');
+                }, child: const Text("로그인 화면"))
               ],
             ),
           ),

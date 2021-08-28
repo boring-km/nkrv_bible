@@ -4,12 +4,10 @@ import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
 import 'package:nkrv_bible/res/CustomColors.dart';
 
-class BibleScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _BibleScreenState();
-}
+class BibleScreen extends StatelessWidget {
 
-class _BibleScreenState extends State<BibleScreen> {
+  const BibleScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
@@ -17,7 +15,7 @@ class _BibleScreenState extends State<BibleScreen> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
                   color: CustomColors.beige,
@@ -55,14 +53,14 @@ class _BibleScreenState extends State<BibleScreen> {
         textList.add(
             Text(
               nt.label,
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             )
         );
       } else {
         textList.add(
             Text(
               item,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             )
         );
       }
