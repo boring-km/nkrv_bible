@@ -1,243 +1,126 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
 import 'package:nkrv_bible/res/custom_colors.dart';
-
-class BookSelectScreen extends StatelessWidget {
+class BookSelectScreen extends StatefulWidget {
 
   const BookSelectScreen({Key? key}) : super(key: key);
+
+  @override
+  State<BookSelectScreen> createState() => _BookSelectScreenState();
+}
+
+class _BookSelectScreenState extends State<BookSelectScreen> {
+
+  final Logger logger = Logger();
+  final base = 8.0;
+  final baseAllPadding = const EdgeInsets.all(8.0);
+  static const bibleBookLength = 66;
+
+  List<bool> indexList = List<bool>.filled(bibleBookLength, false, growable: false);
+  List<String> textList = List<String>.filled(bibleBookLength, "", growable: false);
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
 
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    print("$w $h");
-    const base = 8.0;
-    const baseAllPadding = const EdgeInsets.all(base);
 
-    var landscapeView = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: w/2 - base*8,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(4.0),
-                  topLeft: Radius.circular(4.0),
-                ),
-              ),
-              child: Center(
-                child: Text("구약성서",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: CustomColors.beige,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(4.0),
-                    bottomRight: Radius.circular(4.0),
-                  )
-              ),
-              width: w/2 - base*8,
-              height: h - base*2 - 120,
-              child: Padding(
-                padding: baseAllPadding,
-                child: ListView(
-                  children: _buildTestamentList(OldTestament.values),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: w/2 - base*8,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(4.0),
-                  topLeft: Radius.circular(4.0),
-                ),
-              ),
-              child: Center(
-                child: Text("신약성서",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: CustomColors.beige,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(4.0),
-                    bottomRight: Radius.circular(4.0),
-                  )
-              ),
-              width: w/2 - base*8,
-              height: h - base*2 - 120,
-              child: Padding(
-                padding: baseAllPadding,
-                child: ListView(
-                  children: _buildTestamentList(NewTestament.values),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-
-    var portraitView = ListView(
-      scrollDirection: Axis.vertical,
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: w - base*2,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(4.0),
-                  topLeft: Radius.circular(4.0),
-                ),
-              ),
-              child: Center(
-                child: Text("구약성서",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: CustomColors.beige,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(4.0),
-                    bottomRight: Radius.circular(4.0),
-                  )
-              ),
-              width: w - base*2,
-              child: Padding(
-                padding: baseAllPadding,
-                child: Column(
-                  children: _buildTestamentList(OldTestament.values),
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: base,
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: w - base*2,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(4.0),
-                  topLeft: Radius.circular(4.0),
-                ),
-              ),
-              child: Center(
-                child: Text("신약성서",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: CustomColors.beige,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(4.0),
-                    bottomRight: Radius.circular(4.0),
-                  )
-              ),
-              width: w - base*2,
-              child: Padding(
-                padding: baseAllPadding,
-                child: Column(
-                  children: _buildTestamentList(NewTestament.values),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+    var portraitView = Container(
+      decoration: const BoxDecoration(
+          color: CustomColors.beige,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(16.0),
+            bottomRight: Radius.circular(16.0),
+          )
+      ),
+      width: w - base*2,
+      height: h - base*4,
+      child: buildListWheelScrollView(),
     );
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: w > h ? landscapeView : portraitView,
+          child: Stack(
+            children: [
+              portraitView,
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: base * 2, bottom: base * 2),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      logger.d("hello: ${textList[selectedIndex]}");
+                    },
+                    child: const Icon(CupertinoIcons.search),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  List<Widget> _buildTestamentList(List<dynamic> values) {
-    final textList = <Widget>[];
-    if (values[0] is OldTestament) {
-      for (OldTestament item in values) {
-        textList.add(
-            InkWell(
-              onTap: () {
-                // TODO 선택한 책 이름과 몇 장(편)인지 선택
-                print(item.label);
-              },
-              child: Text(
-                item.label,
-                style: const TextStyle(fontSize: 28),
-              ),
-            )
-        );
-      }
-    } else {
-      for (NewTestament item in values) {
-        textList.add(
-            InkWell(
-              onTap: () {
-                // TODO 선택한 책 이름과 몇 장(편)인지 선택
-                print(item.label);
-              },
-              child: Text(
-                item.label,
-                style: const TextStyle(fontSize: 28),
-              ),
-            )
-        );
-      }
-    }
-
-    return textList;
+  ListWheelScrollView buildListWheelScrollView() {
+    return ListWheelScrollView(
+      itemExtent: 50,
+      diameterRatio: 3,
+      useMagnifier: true,
+      magnification: 1.3,
+      onSelectedItemChanged: (index) {
+        setState(() {
+          for (int i = 0; i < bibleBookLength; i++) {
+            i == index ? indexList[i] = true : indexList[i] = false;
+          }
+          selectedIndex = index;
+        });
+      },
+      children: buildList(baseAllPadding),
+    );
   }
 
+  List<Widget> buildList(EdgeInsets baseAllPadding) {
+    var resultList = <Widget>[];
+    var list = [];
+    list.addAll(OldTestament.values);
+    list.addAll(NewTestament.values);
+
+    for (int i = 0; i < bibleBookLength; i++) {
+      var item = list[i];
+      OldTestament? oldT = item is OldTestament ? item : null;
+      NewTestament? newT = oldT == null ? item : null;
+      String label = oldT != null ? oldT.label : newT!.label;
+      textList[i] = label;
+
+      resultList.add(
+          indexList[i] == true ? Container(
+            decoration: const BoxDecoration(
+              color: Color(0xBEFFFFFF),
+            ),
+            height: 50,
+            child: Center(
+              child: Text(
+                label,
+                style: const TextStyle(fontSize: 28),
+              ),
+            ),
+          ) : Container(
+            decoration: null,
+            height: 50,
+            child: Center(
+              child: Text(
+                label,
+                style: const TextStyle(fontSize: 28),
+              ),
+            ),
+          )
+      );
+    }
+    return resultList;
+  }
 }

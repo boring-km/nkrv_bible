@@ -15,6 +15,7 @@ class MainScreen extends StatelessWidget {
           color: Colors.white,
           child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("메인화면"),
                 ElevatedButton(onPressed: () {

@@ -35,3 +35,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: NSRound
+      fonts:
+        - asset: assets/fonts/NanumSquareRoundOTFB.otf
+        - asset: assets/fonts/NanumSquareRoundOTFEB.otf
+        - asset: assets/fonts/NanumSquareRoundOTFL.otf
+        - asset: assets/fonts/NanumSquareRoundOTFR.otf
+  assets:
+    - assets/

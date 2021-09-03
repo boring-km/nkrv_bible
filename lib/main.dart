@@ -19,14 +19,15 @@ class BibleApp extends StatelessWidget {
       title: '성경',
       debugShowCheckedModeBanner: false,  // debug, release 라벨 제거
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: 'NSRound',
+        backgroundColor: Colors.black,
       ),
       initialRoute: '/',
       routes: {
         '/': (context) => const IntroScreen(),
         '/login': (context) => const LoginScreen(),
         '/main': (context) => const MainScreen(),
-        '/bible': (context) => const BookSelectScreen()
+        '/bible': (context) => const BookSelectScreen(),
       },
     );
   }
