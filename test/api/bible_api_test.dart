@@ -18,9 +18,9 @@ void main() {
     const paragraph = 1;
     const chapters = '1-3';
     final resultArray = await BibleAPI.searchMultiLines(longLabel, paragraph, chapters);
-    expect('<천지 창조> 태초에 하나님이 천지를 창조하시니라', resultArray[0]['sentence']);
-    expect('땅이 혼돈하고 공허하며 흑암이 깊음 위에 있고 하나님의 영은 수면 위에 운행하시니라', resultArray[1]['sentence']);
-    expect('하나님이 이르시되 빛이 있으라 하시니 빛이 있었고', resultArray[2]['sentence']);
+    expect('<천지 창조> 태초에 하나님이 천지를 창조하시니라', resultArray[0].sentence);
+    expect('땅이 혼돈하고 공허하며 흑암이 깊음 위에 있고 하나님의 영은 수면 위에 운행하시니라', resultArray[1].sentence);
+    expect('하나님이 이르시되 빛이 있으라 하시니 빛이 있었고', resultArray[2].sentence);
   });
 
   test("창세기 1장 전체를 조회하면 31절까지 있다", () async {
@@ -37,7 +37,7 @@ void main() {
   test("창세기는 50장까지 있다", () async {
     final resultList = await BibleAPI.getBookCountList(longLabel);
     for (var count in resultList) {
-      logger.i('${count['chapter']}장은 ${count['count']}절까지 있다.');
+      logger.i('${count.chapter}장은 ${count.count}절까지 있다.');
     }
     expect(50, resultList.length);
   });
