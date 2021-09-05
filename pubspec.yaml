@@ -17,12 +17,30 @@ dependencies:
   # http 통신
   http: 0.13.3
 
+  # inner db
+  sqflite: ^2.0.0+4
+  path: ^1.8.0
+
+  # getX
+  get: ^4.3.8
+
+  # logger
+  logger: ^1.1.0
+
 dev_dependencies:
-  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.4
   test: ^1.16.3
 
 flutter:
-
   uses-material-design: true
+  fonts:
+    - family: NSRound
+      fonts:
+        - asset: assets/fonts/NanumSquareRoundOTFB.otf
+        - asset: assets/fonts/NanumSquareRoundOTFEB.otf
+        - asset: assets/fonts/NanumSquareRoundOTFL.otf
+        - asset: assets/fonts/NanumSquareRoundOTFR.otf
+  assets:
+    - assets/

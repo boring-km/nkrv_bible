@@ -1,20 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MainScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _MainScreenState();
-}
+class MainScreen extends StatelessWidget {
 
-class _MainScreenState extends State<MainScreen> {
+  const MainScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SafeArea(
         child: Container(
           color: Colors.white,
           child: Center(
-            child: Text("메인화면"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("메인화면"),
+                ElevatedButton(onPressed: () {
+                  Get.toNamed('/bible');
+                }, child: const Text("성경 뷰어"),),
+              ],
+            ),
           ),
         ),
       ),

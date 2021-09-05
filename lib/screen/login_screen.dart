@@ -1,19 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _LoginScreenState();
-}
+class LoginScreen extends StatelessWidget {
 
-class _LoginScreenState extends State<LoginScreen> {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
           color: Colors.white,
-          child: Center(
+          child: const Center(
             child: Text("로그인화면"),
           ),
         ),
