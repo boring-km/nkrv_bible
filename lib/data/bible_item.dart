@@ -2,9 +2,12 @@ class BibleItem {
   String longLabel;
   int chapter;
   int paragraph;
-  String sentence;
+  late String sentence;
+// regexp_replace(sentence, '<[^>]*> ', '')
 
-  BibleItem(this.longLabel, this.chapter, this.paragraph, this.sentence);
+  BibleItem(this.longLabel, this.chapter, this.paragraph, String sentence) {
+    this.sentence = sentence.replaceAll(RegExp('<[^>]*> '), '');
+  }
 
   @override
   String toString() {
