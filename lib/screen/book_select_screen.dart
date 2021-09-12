@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
 import 'package:nkrv_bible/res/custom_colors.dart';
+import 'package:nkrv_bible/screen/bible_screen.dart';
 class BookSelectScreen extends StatefulWidget {
 
   const BookSelectScreen({Key? key}) : super(key: key);
@@ -52,7 +54,7 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
           borderRadius: BorderRadius.all(Radius.circular(base * 4))
       ),
       width: w - base*2,
-      height: h - base*4,
+      height: h,
       child: buildListWheelScrollView(),
     );
     return Scaffold(
@@ -68,7 +70,7 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
                   padding: EdgeInsets.only(right: base * 2, bottom: base * 2),
                   child: FloatingActionButton(
                     onPressed: () {
-                      logger.d("hello: ${bookLabelList[selectedIndex]}");
+                      Get.to(BibleScreen(label: bookLabelList[selectedIndex],));
                     },
                     child: const Icon(CupertinoIcons.search),
                   ),

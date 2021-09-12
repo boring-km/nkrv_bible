@@ -6,6 +6,7 @@ import 'package:nkrv_bible/data/bible_book_count.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
 import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
+import 'package:nkrv_bible/res/custom_colors.dart';
 
 class BibleScreen extends StatefulWidget {
 
@@ -36,16 +37,22 @@ class _BibleScreenState extends State<BibleScreen> {
   String longLabel = '창세기';
   Color baseColor = Colors.blue;
 
+  bool isReady = false;
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      longLabel = widget.label!;
-      await setBibleText(longLabel);
+      await setBibleText(widget.label!);
     });
     super.initState();
   }
 
   Future<void> setBibleText(String label) async {
+
+    setState(() {
+      isReady = false;
+    });
+
     // 기존 데이터 지우기
     dataList.clear();
     textListView.clear();
@@ -70,6 +77,7 @@ class _BibleScreenState extends State<BibleScreen> {
     // 현재 라벨 기록
     setState(() {
       longLabel = label;
+      isReady = true;
     });
 
   }
@@ -195,6 +203,16 @@ class _BibleScreenState extends State<BibleScreen> {
                 ) : const SizedBox(),
               ),
             ),
+            !isReady ? Center(
+              child: SizedBox(
+                width: 50,
+                height: 50,
+                child: CircularProgressIndicator(
+                  color: baseColor,
+                  strokeWidth: 4.0,
+                ),
+              ),
+            ) : const SizedBox(),
           ],
         ),
       ),
