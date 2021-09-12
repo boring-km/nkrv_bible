@@ -8,7 +8,10 @@ import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
 
 class BibleScreen extends StatefulWidget {
-  const BibleScreen({Key? key}) : super(key: key);
+
+  final String? label;
+
+  const BibleScreen({Key? key, this.label}) : super(key: key);
 
   @override
   State createState() => _BibleScreenState();
@@ -36,7 +39,8 @@ class _BibleScreenState extends State<BibleScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await setBibleText('창세기');
+      longLabel = widget.label!;
+      await setBibleText(longLabel);
     });
     super.initState();
   }

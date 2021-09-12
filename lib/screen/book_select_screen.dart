@@ -17,11 +17,28 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
   final Logger logger = Logger();
   final base = 8.0;
   final baseAllPadding = const EdgeInsets.all(8.0);
-  static const bibleBookLength = 66;
+  static const oldBookLength = 39;
+  static const newBookLength = 27;
+  static const bibleBookLength = oldBookLength + newBookLength;
 
   List<bool> indexList = List<bool>.filled(bibleBookLength, false, growable: false);
-  List<String> textList = List<String>.filled(bibleBookLength, "", growable: false);
+  List<String> bookLabelList = List<String>.filled(bibleBookLength, "", growable: false);
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    setBookLabelList();
+    super.initState();
+  }
+
+  void setBookLabelList() {
+    for (var i = 0; i < oldBookLength; i++) {
+      bookLabelList[i] = OldTestament.values[i].label;
+    }
+    for (var i = 0; i < newBookLength; i++) {
+      bookLabelList[i+oldBookLength] = NewTestament.values[i].label;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +47,28 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
     double h = MediaQuery.of(context).size.height;
 
     var portraitView = Container(
-      decoration: const BoxDecoration(
-          color: CustomColors.beige,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16.0),
-            bottomRight: Radius.circular(16.0),
-          )
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(base * 4))
       ),
       width: w - base*2,
       height: h - base*4,
       child: buildListWheelScrollView(),
     );
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
           child: Stack(
             children: [
-              portraitView,
+              Center(child: portraitView),
               Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: EdgeInsets.only(right: base * 2, bottom: base * 2),
                   child: FloatingActionButton(
                     onPressed: () {
-                      logger.d("hello: ${textList[selectedIndex]}");
+                      logger.d("hello: ${bookLabelList[selectedIndex]}");
                     },
                     child: const Icon(CupertinoIcons.search),
                   ),
@@ -69,9 +84,7 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
   ListWheelScrollView buildListWheelScrollView() {
     return ListWheelScrollView(
       itemExtent: 50,
-      diameterRatio: 3,
-      useMagnifier: true,
-      magnification: 1.3,
+      diameterRatio: 6,
       onSelectedItemChanged: (index) {
         setState(() {
           for (int i = 0; i < bibleBookLength; i++) {
@@ -86,36 +99,44 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
 
   List<Widget> buildList(EdgeInsets baseAllPadding) {
     var resultList = <Widget>[];
-    var list = [];
-    list.addAll(OldTestament.values);
-    list.addAll(NewTestament.values);
 
     for (int i = 0; i < bibleBookLength; i++) {
-      var item = list[i];
-      OldTestament? oldT = item is OldTestament ? item : null;
-      NewTestament? newT = oldT == null ? item : null;
-      String label = oldT != null ? oldT.label : newT!.label;
-      textList[i] = label;
+      String label = bookLabelList[i];
+      bool isOld = i < oldBookLength;
+
+      double defaultFontSize = 18;
+      String forwardLabel = isOld ? '구약' : '신약';
+      var forwardLabelColor = isOld ? Color(0xff074ff6) : Color(0xfffa1313);
+      var isSelected = indexList[i] == true;
+      var boxDecoration = const BoxDecoration();
+
+      if (isSelected) {
+        boxDecoration = BoxDecoration(
+          color: isOld ? CustomColors.lightBlue : CustomColors.lightRed,
+        );
+        defaultFontSize = 36;
+      }
 
       resultList.add(
-          indexList[i] == true ? Container(
-            decoration: const BoxDecoration(
-              color: Color(0xBEFFFFFF),
-            ),
-            height: 50,
+          Container(
+            decoration: boxDecoration,
             child: Center(
-              child: Text(
-                label,
-                style: const TextStyle(fontSize: 28),
-              ),
-            ),
-          ) : Container(
-            decoration: null,
-            height: 50,
-            child: Center(
-              child: Text(
-                label,
-                style: const TextStyle(fontSize: 28),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: base),
+                    child: Text(
+                      forwardLabel,
+                      style: TextStyle(color: forwardLabelColor),
+                    ),
+                  ),
+                  Text(
+                    label,
+                    style: TextStyle(fontSize: defaultFontSize),
+                  ),
+                  const SizedBox(width: 5,)
+                ],
               ),
             ),
           )

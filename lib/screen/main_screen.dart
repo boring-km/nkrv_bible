@@ -19,8 +19,8 @@ class MainScreen extends StatelessWidget {
               children: [
                 const Text("메인화면"),
                 ElevatedButton(onPressed: () {
-                  Get.toNamed('/bible');
-                }, child: const Text("성경 뷰어"),),
+                  Get.toNamed('/bible/select');
+                }, child: const Text("성경 보기"),),
               ],
             ),
           ),
