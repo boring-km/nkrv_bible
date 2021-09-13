@@ -6,7 +6,6 @@ import 'package:nkrv_bible/data/bible_book_count.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
 import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
-import 'package:nkrv_bible/res/custom_colors.dart';
 
 class BibleScreen extends StatefulWidget {
 
@@ -32,10 +31,11 @@ class _BibleScreenState extends State<BibleScreen> {
   final chapterScrollController = ScrollController();
 
   bool isFolded = false;
-  double bottomBarHeight = 80;
+  double bottomBarHeight = 90;
   bool isOldBible = true;
-  String longLabel = '창세기';
+  String longLabel = '';
   Color baseColor = Colors.blue;
+  final double toolBarHeight = 50;
 
   bool isReady = false;
 
@@ -86,14 +86,16 @@ class _BibleScreenState extends State<BibleScreen> {
   Widget build(BuildContext context) {
 
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    double h = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     double base = w > h ? w / 10 : h / 10;
+    var listHeight = !isFolded ? h - bottomBarHeight*2.1 : h;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: baseColor,
         title: Text(longLabel, style: TextStyle(fontSize: base/3, fontWeight: FontWeight.bold),),
+        toolbarHeight: toolBarHeight,
         actions: [
           IconButton(
             icon: const Icon(CupertinoIcons.eye, color: Colors.white,),
@@ -108,45 +110,40 @@ class _BibleScreenState extends State<BibleScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            AnimatedContainer(
-              width: w-40,
-              height: !isFolded ? h - (bottomBarHeight*2 - 120) : h - 40,
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-              ),
-              duration: const Duration(milliseconds: 300),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: AnimatedContainer(
-                  height: !isFolded ? h - bottomBarHeight*2 : h - bottomBarHeight - 20,
-                  duration: const Duration(milliseconds: 300),
-                  child: SizedBox(
-                    width: w-40,
-                    child: Scrollbar(
-                      child: ListView.builder(
-                        controller: textScrollController,
-                        itemCount: textListView.length,
-                        itemBuilder: (innerContext, index) {
-                          return textListView[index];
-                        },
-                      ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: AnimatedContainer(
+                height: listHeight,
+                duration: const Duration(milliseconds: 300),
+                child: SizedBox(
+                  width: w-50,
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      controller: textScrollController,
+                      itemCount: textListView.length,
+                      itemBuilder: (innerContext, index) {
+                        return textListView[index];
+                      },
                     ),
                   ),
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: AnimatedContainer(
-                width: 40,
-                duration: const Duration(milliseconds: 300),
-                child: Scrollbar(
-                  child: ListView.builder(
-                    controller: chapterScrollController,
-                    itemCount: chapterListView.length,
-                    itemBuilder: (innerContext, index) {
-                      return chapterListView[index];
-                    },
+            SizedBox(
+              height: listHeight,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: AnimatedContainer(
+                  width: 50,
+                  duration: const Duration(milliseconds: 300),
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      controller: chapterScrollController,
+                      itemCount: chapterListView.length,
+                      itemBuilder: (innerContext, index) {
+                        return chapterListView[index];
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -185,10 +182,10 @@ class _BibleScreenState extends State<BibleScreen> {
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        isOld ? const Text('구', style: TextStyle(color: Colors.blue),) :
-                                        const Text('신', style: TextStyle(color: Colors.red),),
+                                        isOld ? const Text('구', style: TextStyle(color: Colors.blue, fontSize: 16),)
+                                            : const Text('신', style: TextStyle(color: Colors.red, fontSize: 16),),
                                         const SizedBox(height: 4.0,),
-                                        Text(bibleLabel, style: const TextStyle(fontWeight: FontWeight.bold),),
+                                        Text(bibleLabel, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                                       ],
                                     ),
                                   ),
@@ -236,18 +233,16 @@ class _BibleScreenState extends State<BibleScreen> {
             child: Row(
               children: [
                 SizedBox(
-                  width: 60,
+                  width: 55,
                   child: Text(
                     '${data.chapter} : ${data.paragraph}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 10,),
                 SizedBox(
                   width: w-120,
                   child: Text(data.sentence,
                     maxLines: 10,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -269,14 +264,14 @@ class _BibleScreenState extends State<BibleScreen> {
             logger.d('선택한 장: ${i+1}');
           },
           child: Container(
-            height: 30,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border(bottom: BorderSide(color: baseColor, width: 0.5)),
             ),
             child: Center(
               child: Text('${item.chapter}',
-                style: TextStyle(color: baseColor, fontWeight: FontWeight.bold),),),
+                style: TextStyle(color: baseColor, fontSize: 20, fontWeight: FontWeight.bold),),),
           ),
         ),
       );
