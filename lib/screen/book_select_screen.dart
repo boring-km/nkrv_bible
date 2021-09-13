@@ -59,25 +59,23 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
     );
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SafeArea(
-        child: Center(
-          child: Stack(
-            children: [
-              Center(child: portraitView),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: base * 2, bottom: base * 2),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      Get.to(BibleScreen(label: bookLabelList[selectedIndex],));
-                    },
-                    child: const Icon(CupertinoIcons.search),
-                  ),
+      body: Center(
+        child: Stack(
+          children: [
+            Center(child: portraitView),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: EdgeInsets.only(right: base * 2, bottom: base * 2),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Get.to(BibleScreen(label: bookLabelList[selectedIndex],));
+                  },
+                  child: const Icon(CupertinoIcons.search),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
