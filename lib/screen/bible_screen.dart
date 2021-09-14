@@ -86,9 +86,11 @@ class _BibleScreenState extends State<BibleScreen> {
   Widget build(BuildContext context) {
 
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    double safePadding = MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom + toolBarHeight;
+    double fullHeight = MediaQuery.of(context).size.height;
+    double h = fullHeight - safePadding;
     double base = w > h ? w / 10 : h / 10;
-    var listHeight = !isFolded ? h - bottomBarHeight*2.1 : h;
+    var listHeight = !isFolded ? h - bottomBarHeight : fullHeight;
 
     return Scaffold(
       appBar: AppBar(
@@ -229,24 +231,24 @@ class _BibleScreenState extends State<BibleScreen> {
       resultList.add(
         Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: SizedBox(
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 55,
-                  child: Text(
-                    '${data.chapter} : ${data.paragraph}',
-                    overflow: TextOverflow.ellipsis,
-                  ),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 55,
+                child: Text(
+                  '${data.chapter} : ${data.paragraph}',
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(
-                  width: w-120,
+              ),
+              Flexible(
+                child: Container(
+                  width: w-200,
                   child: Text(data.sentence,
-                    maxLines: 10,
+                    softWrap: true,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
