@@ -241,8 +241,8 @@ class _BibleScreenState extends State<BibleScreen> {
                 ),
               ),
               Flexible(
-                child: Container(
-                  width: w-200,
+                child: SizedBox(
+                  width: w-120,
                   child: Text(data.sentence,
                     softWrap: true,
                   ),
