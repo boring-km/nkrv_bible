@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nkrv_bible/screen/book_select_screen.dart';
 
 class MainScreen extends StatelessWidget {
 
@@ -19,7 +20,7 @@ class MainScreen extends StatelessWidget {
               children: [
                 const Text("메인화면"),
                 ElevatedButton(onPressed: () {
-                  Get.toNamed('/bible/select');
+                  Get.to(const BookSelectScreen());
                 }, child: const Text("성경 보기"),),
               ],
             ),
