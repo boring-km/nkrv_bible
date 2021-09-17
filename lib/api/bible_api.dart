@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 import 'package:nkrv_bible/data/bible_book_count.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
 
@@ -50,7 +49,6 @@ class BibleAPI {
     List<BibleItem> data = [];
     for (var item in itemList) {
       var bibleItem = BibleItem(item['label'], item['chapter'], item['paragraph'], item['sentence']);
-      Logger().d(bibleItem.toString());
       data.add(bibleItem);
     }
     return data;
@@ -67,5 +65,13 @@ class BibleAPI {
       data.add(BibleBookCount(label, item['chapter'], item['count']));
     }
     return data;
+  }
+
+  static Future<int> getPreviousTextTotalLength(String label, int chapter) async {
+    final uri = Uri.parse('http://ec2-3-38-12-80.ap-northeast-2.compute.amazonaws.com/textLength/$label/$chapter');
+    final response = await http.get(uri);
+    final body = response.body;
+    final jsonBody = jsonDecode(body);
+    return jsonBody['result']['result'] as int;
   }
 }

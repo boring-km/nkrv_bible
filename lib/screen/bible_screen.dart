@@ -84,8 +84,8 @@ class _BibleScreenState extends State<BibleScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     double w = MediaQuery.of(context).size.width;
+    logger.i("가로길이: $w");
     double safePadding = MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom + toolBarHeight;
     double fullHeight = MediaQuery.of(context).size.height;
     double h = fullHeight - safePadding;
@@ -264,6 +264,13 @@ class _BibleScreenState extends State<BibleScreen> {
         GestureDetector(
           onTap: () {
             logger.d('선택한 장: ${i+1}');
+            var chapterCount = 0;
+            for (var j = 0; j < i; j++) {
+              chapterCount += bookCountList[j].count;
+            }
+            setState(() {
+              textScrollController.animateTo(chapterCount * 36, duration: const Duration(milliseconds: 400), curve: Curves.ease);
+            });
           },
           child: Container(
             height: 40,
