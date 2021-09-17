@@ -6,6 +6,7 @@ import 'package:nkrv_bible/data/bible_book_count.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
 import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class BibleScreen extends StatefulWidget {
 
@@ -33,14 +34,20 @@ class _BibleScreenState extends State<BibleScreen> {
   bool isFolded = false;
   double bottomBarHeight = 90;
   bool isOldBible = true;
-  String longLabel = '';
+  String curLabel = '';
   Color baseColor = Colors.blue;
   final double toolBarHeight = 50;
+
+  late AutoScrollController autoScrollController;
 
   bool isReady = false;
 
   @override
   void initState() {
+    autoScrollController = AutoScrollController(
+      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+      axis: Axis.vertical,
+    );
     Future.delayed(Duration.zero, () async {
       await setBibleText(widget.label!);
     });
@@ -76,7 +83,7 @@ class _BibleScreenState extends State<BibleScreen> {
 
     // 현재 라벨 기록
     setState(() {
-      longLabel = label;
+      curLabel = label;
       isReady = true;
     });
 
@@ -85,7 +92,6 @@ class _BibleScreenState extends State<BibleScreen> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    logger.i("가로길이: $w");
     double safePadding = MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom + toolBarHeight;
     double fullHeight = MediaQuery.of(context).size.height;
     double h = fullHeight - safePadding;
@@ -96,7 +102,7 @@ class _BibleScreenState extends State<BibleScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: baseColor,
-        title: Text(longLabel, style: TextStyle(fontSize: base/3, fontWeight: FontWeight.bold),),
+        title: Text(curLabel, style: TextStyle(fontSize: base/3, fontWeight: FontWeight.bold),),
         toolbarHeight: toolBarHeight,
         actions: [
           IconButton(
@@ -121,7 +127,7 @@ class _BibleScreenState extends State<BibleScreen> {
                   width: w-50,
                   child: Scrollbar(
                     child: ListView.builder(
-                      controller: textScrollController,
+                      controller: autoScrollController,
                       itemCount: textListView.length,
                       itemBuilder: (innerContext, index) {
                         return textListView[index];
@@ -227,28 +233,34 @@ class _BibleScreenState extends State<BibleScreen> {
   List<Widget> buildTextListView(BuildContext context, List<BibleItem> dataList) {
     final resultList = <Widget>[];
     double w = MediaQuery.of(context).size.width;
-    for (BibleItem data in dataList) {
+    for (var i = 0; i < dataList.length; i++) {
+      BibleItem data = dataList[i];
       resultList.add(
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 55,
-                child: Text(
-                  '${data.chapter} : ${data.paragraph}',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Flexible(
-                child: SizedBox(
-                  width: w-120,
-                  child: Text(data.sentence,
-                    softWrap: true,
+        _wrapScrollTag(
+          index: i,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: Text(
+                    '${data.chapter} : ${data.paragraph}',
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 5,),
+                Flexible(
+                  child: SizedBox(
+                    width: w-115,
+                    child: Text(data.sentence,
+                      softWrap: true,
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -256,21 +268,33 @@ class _BibleScreenState extends State<BibleScreen> {
     return resultList;
   }
 
+  Widget _wrapScrollTag({required int index, required Widget child}) =>
+      AutoScrollTag(
+        key: ValueKey(index),
+        controller: autoScrollController,
+        index: index,
+        child: child,
+        highlightColor: Colors.black.withOpacity(0.1),
+      );
+
   List<Widget> buildChapterListView(BuildContext context, List<BibleBookCount> bookCountList, Color baseColor) {
     final resultList = <Widget>[];
+    double w = MediaQuery.of(context).size.width;
+    double textWidth = w - 120;
+
     for (int i = 0; i < bookCountList.length; i++) {
       var item = bookCountList[i];
       resultList.add(
         GestureDetector(
-          onTap: () {
-            logger.d('선택한 장: ${i+1}');
-            var chapterCount = 0;
+          onTap: () async {
+            final length = await BibleAPI.getPreviousTextTotalLength(curLabel, i+1);
+            final tempLineCount = length / textWidth * 10.5;
+            int movingIndex = 0;
             for (var j = 0; j < i; j++) {
-              chapterCount += bookCountList[j].count;
+              movingIndex += bookCountList[j].count;
             }
-            setState(() {
-              textScrollController.animateTo(chapterCount * 36, duration: const Duration(milliseconds: 400), curve: Curves.ease);
-            });
+            await autoScrollController.animateTo(tempLineCount * 20, duration: const Duration(milliseconds: 100), curve: Curves.ease);
+            await autoScrollController.scrollToIndex(movingIndex, preferPosition: AutoScrollPosition.begin);
           },
           child: Container(
             height: 40,
