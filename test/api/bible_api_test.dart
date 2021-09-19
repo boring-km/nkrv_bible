@@ -41,4 +41,11 @@ void main() {
     }
     expect(resultList.length, 50);
   });
+
+  test("시편 100편 앞까지 있었던 시편의 문자 수의 합은 70713자 이다.", () async {
+    const label = '시편';
+    const chapter = 100;
+    final result = await BibleAPI.getPreviousTextTotalLength(label, chapter);
+    expect(result, 70713);
+  });
 }
