@@ -18,7 +18,7 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    double base = w > h ? h * (3/4) : w * (3/4) ;
+    double base = w > h ? h / 2 : w / 2 ;
 
     final bottomTextShadow = [
       const Shadow(
@@ -38,13 +38,23 @@ class IntroScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            Center(
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: base / 3),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                  width: base,
+                  height: base,
+                  child: Center(
+                    child: Lottie.asset(
+                      'assets/lottie/54020-bible.json',
+                    ),
+                  ),
                 ),
-                width: base,
               ),
             ),
             Align(
@@ -61,16 +71,10 @@ class IntroScreen extends StatelessWidget {
                     animatedTexts: [
                       FadeAnimatedText('개역개정 성경', duration: const Duration(seconds: 3),),
                     ],
-                    isRepeatingAnimation: false,
+                    isRepeatingAnimation: true,
+                    repeatForever: true,
                   ),
                 ),
-              ),
-            ),
-            Center(
-              child: Lottie.asset(
-                'assets/lottie/54020-bible.json',
-                width: base,
-                height: base,
               ),
             ),
           ],
