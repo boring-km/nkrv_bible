@@ -77,10 +77,6 @@ class _BibleScreenState extends State<BibleScreen> {
     textListView.addAll(buildTextListView(context, dataList));
     chapterListView.addAll(buildChapterListView(context, bookCountList, baseColor));
 
-    // 스크롤 당기기
-    chapterScrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.ease);
-    textScrollController.animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.ease);
-
     // 현재 라벨 기록
     setState(() {
       curLabel = label;
