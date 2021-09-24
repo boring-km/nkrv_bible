@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 const Text("로그인화면"),
                 ElevatedButton(onPressed: () {
-                  Get.to(const MainScreen());
+                  Get.to(MainScreen());
                 }, child: const Text("메인화면으로 이동")),
               ],
             ),
