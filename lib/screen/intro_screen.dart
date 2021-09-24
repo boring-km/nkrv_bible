@@ -39,20 +39,17 @@ class IntroScreen extends StatelessWidget {
         child: Stack(
           children: [
             Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.only(top: base / 3),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  width: base,
-                  height: base,
-                  child: Center(
-                    child: Lottie.asset(
-                      'assets/lottie/54020-bible.json',
-                    ),
+              alignment: Alignment.center,
+              child: Container(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                width: base,
+                height: base,
+                child: Center(
+                  child: Lottie.asset(
+                    'assets/lottie/54020-bible.json',
                   ),
                 ),
               ),
