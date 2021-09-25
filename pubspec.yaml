@@ -29,6 +29,12 @@ dependencies:
 
   scroll_to_index: ^2.0.0
 
+  # 커스텀 애니메이션
+  lottie: ^1.1.0
+
+  # 텍스트 애니메이션
+  animated_text_kit: ^4.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -46,3 +52,4 @@ flutter:
         - asset: assets/fonts/NanumSquareRoundOTFR.otf
   assets:
     - assets/
+    - assets/lottie/

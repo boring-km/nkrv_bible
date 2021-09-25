@@ -25,8 +25,8 @@ class BibleApp extends StatelessWidget {
       ),
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => const IntroScreen()),
-        GetPage(name: '/login', page: () => const LoginScreen()),
+        GetPage(name: '/', page: () => IntroScreen(), transition: Transition.fade),
+        GetPage(name: '/login', page: () => const LoginScreen(), transition: Transition.fade),
         GetPage(name: '/main', page: () => const MainScreen()),
         GetPage(name: '/bible/select', page: () => const BookSelectScreen()),
         GetPage(name: '/bible', page: () => const BibleScreen()),
