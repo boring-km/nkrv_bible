@@ -5,7 +5,6 @@ import 'package:nkrv_bible/screen/bible_screen.dart';
 import 'package:nkrv_bible/screen/book_select_screen.dart';
 import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main_screen.dart';
-
 import 'app.dart';
 
 void main() {
@@ -30,7 +29,7 @@ class BibleApp extends StatelessWidget {
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => App()),
-        GetPage(name: '/login', page: () => const LoginScreen()),
+        GetPage(name: '/login', page: () => LoginScreen()),
         GetPage(name: '/main', page: () => MainScreen()),
         GetPage(name: '/bible/select', page: () => const BookSelectScreen()),
         GetPage(name: '/bible', page: () => const BibleScreen()),
