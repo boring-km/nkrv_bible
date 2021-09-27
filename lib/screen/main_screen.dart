@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import 'intro_screen.dart';
@@ -17,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Future <LoginScreen> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    return const LoginScreen();
+    return LoginScreen();
   }
 
   @override
@@ -34,7 +35,29 @@ class _MainScreenState extends State<MainScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("게스트님 환영합니다."),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("게스트님 환영합니다."),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: CupertinoButton(
+                        color: Colors.blue,
+                        onPressed: () {
+                          Get.toNamed('/bible/select');
+                        },
+                        child: const Text(
+                          '성경',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -60,7 +83,29 @@ class _MainScreenState extends State<MainScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("${snapshot.data!.displayName}님 환영합니다."),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("${snapshot.data!.displayName}님 환영합니다."),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: CupertinoButton(
+                        color: Colors.blue,
+                        onPressed: () {
+                          Get.toNamed('/bible/select');
+                        },
+                        child: const Text(
+                          '성경',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
