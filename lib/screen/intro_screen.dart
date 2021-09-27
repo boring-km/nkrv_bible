@@ -17,9 +17,6 @@ class IntroScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("로딩화면"),
-                // ElevatedButton(onPressed: () {
-                //   Get.toNamed('/main');
-                // }, child: const Text("메인화면")),
                 ElevatedButton(onPressed: () {
                   Get.toNamed('/login');
                 }, child: const Text("로그인 화면"))
