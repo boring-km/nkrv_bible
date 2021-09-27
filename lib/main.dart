@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/screen/bible_screen.dart';
 import 'package:nkrv_bible/screen/book_select_screen.dart';
-import 'package:nkrv_bible/screen/intro_screen.dart';
 import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main_screen.dart';
 
