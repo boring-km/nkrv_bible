@@ -45,7 +45,7 @@ dependencies:
   google_sign_in: ^5.1.0
 
   # 페이스북 로그인
-#  flutter_facebook_auth: ^3.5.1
+  flutter_facebook_auth: ^3.5.1
 
   # 카카오톡 로그인
   kakao_flutter_sdk: ^0.7.1
