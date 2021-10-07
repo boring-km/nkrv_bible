@@ -49,3 +49,4 @@ app.*.map.json
 pubspec.lock
 .metadata
 .idea
+dev.env
