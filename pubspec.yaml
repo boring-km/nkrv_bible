@@ -81,4 +81,5 @@ flutter:
     - assets/icon/icon_facebook.png
     - assets/icon/icon_email.png
     - assets/icon/icon_guest.png
+    - assets/icon/icon_bible.png
     - dev.env
