@@ -5,7 +5,7 @@ import 'package:nkrv_bible/screen/bible_screen.dart';
 import 'package:nkrv_bible/screen/book_select_screen.dart';
 import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main_screen.dart';
-import 'app.dart';
+import 'package:nkrv_bible/screen/splash_screen.dart';
 
 void main() {
   KakaoContext.clientId = "b17b8b41f1eed93570aaf9e64f53ded8";
@@ -28,7 +28,7 @@ class BibleApp extends StatelessWidget {
       ),
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => App()),
+        GetPage(name: '/', page: () => SplashScreen()),
         GetPage(name: '/login', page: () => LoginScreen()),
         GetPage(name: '/main', page: () => MainScreen()),
         GetPage(name: '/bible/select', page: () => const BookSelectScreen()),
