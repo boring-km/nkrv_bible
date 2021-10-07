@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:nkrv_bible/screen/bible_screen.dart';
@@ -7,9 +8,10 @@ import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main_screen.dart';
 import 'app.dart';
 
-void main() {
-  KakaoContext.clientId = "b17b8b41f1eed93570aaf9e64f53ded8";
-  KakaoContext.javascriptClientId = "b7b85e862024c88423792cfb8d0ada4b";
+Future main() async {
+  await dotenv.load(fileName: 'dev.env');
+  KakaoContext.clientId = dotenv.env['KAKAO_CONTEXT_CLIENT_ID']!;
+  KakaoContext.javascriptClientId = dotenv.env['KAKAO_CONTEXT_JAVASCRIPT_CLIENT_ID']!;
   runApp(const BibleApp());
 }
 

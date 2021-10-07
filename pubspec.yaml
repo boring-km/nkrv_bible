@@ -55,7 +55,7 @@ dependencies:
   platform:
   shared_preferences:
 
-
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -81,3 +81,4 @@ flutter:
     - assets/icon/icon_facebook.png
     - assets/icon/icon_email.png
     - assets/icon/icon_guest.png
+    - dev.env

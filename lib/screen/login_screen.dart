@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,6 +20,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final bool _isDialogVisible = false; // 다이얼로그 visible
   final Logger logger = Logger();
+  late String callbackURL;
+
+  @override
+  void initState() {
+    callbackURL = dotenv.env['OAUTH_CALLBACK_URL']!;
+    super.initState();
+  }
 
   void _onLoading() {
     showDialog(
@@ -94,10 +102,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final clientState = const Uuid().v4();
     final url = Uri.https('kauth.kakao.com', '/oauth/authorize', {
       'response_type': 'code',
-      'client_id': "058ab8ac93b04ab2999fe32ae68199a9",
+      'client_id': dotenv.env['KAKAO_KAUTH_CLIENT_ID'],
       'response_mode': 'form_post',
       'redirect_uri':
-      'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/sign_in',
+      '$callbackURL/callbacks/kakao/sign_in',
       'state': clientState,
     });
 
@@ -108,16 +116,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final tokenUrl = Uri.https('kauth.kakao.com', '/oauth/token', {
       'grant_type': 'authorization_code',
-      'client_id': "058ab8ac93b04ab2999fe32ae68199a9",
+      'client_id': dotenv.env['KAKAO_KAUTH_CLIENT_ID'],
       'redirect_uri':
-      'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/sign_in',
+      '$callbackURL/callbacks/kakao/sign_in',
       'code': body["code"],
     });
     var responseTokens = await http.post(Uri.parse(tokenUrl.toString()));
     Map<String, dynamic> bodys = json.decode(responseTokens.body);
     var response = await http.post(
         Uri.parse(
-            'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/token'),
+            '$callbackURL/callbacks/kakao/token'),
         body: {"accessToken": bodys['access_token']});
     _onLoading();
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
@@ -127,9 +135,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final clientState = const Uuid().v4();
     final url = Uri.https('nid.naver.com', '/oauth2.0/authorize', {
       'response_type': 'code',
-      'client_id': "7RuE2n_TrTFDm3gBB8x3",
+      'client_id': dotenv.env['NAVER_CLIENT_ID'],
       'redirect_uri':
-      'https://pinnate-alpine-passionfruit.glitch.me/callbacks/naver/sign_in',
+      '$callbackURL/callbacks/naver/sign_in',
       'state': clientState,
     });
 
@@ -139,8 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final tokenUrl = Uri.https('nid.naver.com', '/oauth2.0/token', {
       'grant_type': 'authorization_code',
-      'client_id': "7RuE2n_TrTFDm3gBB8x3",
-      'client_secret': "WRXBa8ZgiA",
+      'client_id': dotenv.env['NAVER_CLIENT_ID'],
+      'client_secret': dotenv.env['NAVER_CLIENT_SECRET'],
       'code': body["code"],
       'state': clientState,
     });
@@ -148,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Map<String, dynamic> bodys = json.decode(responseTokens.body);
     var response = await http.post(
         Uri.parse(
-            "https://pinnate-alpine-passionfruit.glitch.me/callbacks/naver/token"),
+            "$callbackURL/callbacks/naver/token"),
         body: {"accessToken": bodys['access_token']});
     _onLoading();
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
@@ -185,9 +193,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 buildElevatedButton(
                     _signGuest, "assets/icon/icon_guest.png", "게스트로 이용", const Color(0xffDCDCDC), Colors.black87
                 ),
-                // ElevatedButton(onPressed: () {
-                //   Get.to(MainScreen());
-                // }, child: const Text("메인화면으로 이동")),
                 Visibility(
                     visible: _isDialogVisible,
                     child: Container(
