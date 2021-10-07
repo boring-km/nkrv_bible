@@ -10,17 +10,43 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("로딩화면"),
-                ElevatedButton(onPressed: () {
-                  Get.toNamed('/login');
-                }, child: const Text("로그인 화면"))
-              ],
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                width: base,
+                height: base,
+                child: Center(
+                  child: Lottie.asset(
+                    'assets/lottie/54020-bible.json',
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: base / 10),
+                child: DefaultTextStyle(
+                  style: TextStyle(
+                    fontSize: base/4,
+                    color: Colors.white,
+                    shadows: bottomTextShadow,
+                  ),
+                  child: AnimatedTextKit(
+                    animatedTexts: [
+                      FadeAnimatedText('개역개정 성경', duration: const Duration(seconds: 3),),
+                    ],
+                    isRepeatingAnimation: true,
+                    repeatForever: true,
+                  ),
+                ),
+              ),
             ),
           ),
         ),

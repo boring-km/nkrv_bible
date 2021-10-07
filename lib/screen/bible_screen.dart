@@ -4,8 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:nkrv_bible/api/bible_api.dart';
 import 'package:nkrv_bible/data/bible_book_count.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
-import 'package:nkrv_bible/data/new_testament.dart';
-import 'package:nkrv_bible/data/old_testament.dart';
+import 'package:nkrv_bible/data/check_bible_is_new.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class BibleScreen extends StatefulWidget {
@@ -22,8 +21,6 @@ class _BibleScreenState extends State<BibleScreen> {
 
   final Logger logger = Logger();
 
-  final List<OldTestament> oldList = OldTestament.values;
-  final List<NewTestament> newList = NewTestament.values;
   final List<BibleItem> dataList = [];
   final List<BibleBookCount> bookCountList = [];
   final List<Widget> textListView = [];
@@ -66,8 +63,8 @@ class _BibleScreenState extends State<BibleScreen> {
     bookCountList.clear();
     chapterListView.clear();
 
-    // 기본 색 변경
-    baseColor = isOldBible ? Colors.blue : Colors.redAccent;
+    // 구약 신약에 따라 기본 색 변경
+    baseColor = isNewTestament(label) ? Colors.redAccent : Colors.blue;
 
     // 데이터 조회
     dataList.addAll(await BibleAPI.searchLongLabel(label));
@@ -218,12 +215,6 @@ class _BibleScreenState extends State<BibleScreen> {
         ),
       ),
     );
-  }
-
-  Map<Object, Object> getOldOrNewLabel(int index) {
-    var isOld = index < 39;
-    String label = isOld ? oldList[index].label : newList[index-39].label;
-    return {"isOld": isOld, "label": label};
   }
 
   List<Widget> buildTextListView(BuildContext context, List<BibleItem> dataList) {
