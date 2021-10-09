@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nkrv_bible/app.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -16,11 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 4),
-          () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => App()),
-      ),
+      const Duration(seconds: 2), () => Get.offAll(App(), transition: Transition.fade),
     );
   }
 
