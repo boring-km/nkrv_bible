@@ -33,6 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isDialogVisible = true;
     });
+  }
+
+  void _closeScreen() {
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pop(context);
       Navigator.pop(context);
@@ -41,10 +44,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _signGuest() {
     _onLoading();
+
     FirebaseAuth.instance.signInAnonymously();
   }
 
   Future<UserCredential> signInWithGoogle() async {
+    _onLoading();
+
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -58,12 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
     );
 
-    _onLoading();
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<UserCredential> signInWithFacebook() async {
+    _onLoading();
+
     // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
@@ -71,12 +78,15 @@ class _LoginScreenState extends State<LoginScreen> {
     final OAuthCredential facebookAuthCredential =
     FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-    _onLoading();
     // Once signed in, return the UserCredential
-    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    var credential = FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    _closeScreen();
+    return credential;
   }
 
   Future<UserCredential> signInWithKaKao() async {
+    _onLoading();
+
     final clientState = const Uuid().v4();
     final url = Uri.https('kauth.kakao.com', '/oauth/authorize', {
       'response_type': 'code',
@@ -105,11 +115,14 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(
             '$callbackURL/callbacks/kakao/token'),
         body: {"accessToken": bodys['access_token']});
-    _onLoading();
-    return FirebaseAuth.instance.signInWithCustomToken(response.body);
+    final token = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+    _closeScreen();
+    return token;
   }
 
   Future<UserCredential> signInWithNaver() async {
+    _onLoading();
+
     final clientState = const Uuid().v4();
     final url = Uri.https('nid.naver.com', '/oauth2.0/authorize', {
       'response_type': 'code',
@@ -136,8 +149,9 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(
             "$callbackURL/callbacks/naver/token"),
         body: {"accessToken": bodys['access_token']});
-    _onLoading();
-    return FirebaseAuth.instance.signInWithCustomToken(response.body);
+    final credential = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+    _closeScreen();
+    return credential;
   }
 
 
