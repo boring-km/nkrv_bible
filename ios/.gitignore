@@ -34,3 +34,4 @@ Runner/GeneratedPluginRegistrant.*
 
 Runner/Info.plist
 Runner/GoogleService-Info.plist
+Podfile.lock

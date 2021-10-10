@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
@@ -18,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final bool _isDialogVisible = false; // 다이얼로그 visible
+  bool _isDialogVisible = false; // 다이얼로그 visible
   final Logger logger = Logger();
   late String callbackURL;
 
@@ -29,44 +30,27 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onLoading() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const CircularProgressIndicator(),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("로그인 중..."),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    setState(() {
+      _isDialogVisible = true;
+    });
+  }
+
+  void _closeScreen() {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pop(context); //pop dialog
-      Navigator.pop(context); //pop dialog
-      // _login();
+      Navigator.pop(context);
+      Navigator.pop(context);
     });
   }
 
   void _signGuest() {
     _onLoading();
+
     FirebaseAuth.instance.signInAnonymously();
   }
 
   Future<UserCredential> signInWithGoogle() async {
+    _onLoading();
+
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -80,12 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
     );
 
-    _onLoading();
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<UserCredential> signInWithFacebook() async {
+    _onLoading();
+
     // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
@@ -93,12 +78,15 @@ class _LoginScreenState extends State<LoginScreen> {
     final OAuthCredential facebookAuthCredential =
     FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-    _onLoading();
     // Once signed in, return the UserCredential
-    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    var credential = FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    _closeScreen();
+    return credential;
   }
 
   Future<UserCredential> signInWithKaKao() async {
+    _onLoading();
+
     final clientState = const Uuid().v4();
     final url = Uri.https('kauth.kakao.com', '/oauth/authorize', {
       'response_type': 'code',
@@ -127,11 +115,14 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(
             '$callbackURL/callbacks/kakao/token'),
         body: {"accessToken": bodys['access_token']});
-    _onLoading();
-    return FirebaseAuth.instance.signInWithCustomToken(response.body);
+    final token = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+    _closeScreen();
+    return token;
   }
 
   Future<UserCredential> signInWithNaver() async {
+    _onLoading();
+
     final clientState = const Uuid().v4();
     final url = Uri.https('nid.naver.com', '/oauth2.0/authorize', {
       'response_type': 'code',
@@ -158,8 +149,9 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(
             "$callbackURL/callbacks/naver/token"),
         body: {"accessToken": bodys['access_token']});
-    _onLoading();
-    return FirebaseAuth.instance.signInWithCustomToken(response.body);
+    final credential = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+    _closeScreen();
+    return credential;
   }
 
 
@@ -169,7 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Container(
           color: Colors.white,
-          child: Center(
+          child:
+          !_isDialogVisible ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -193,18 +186,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 buildElevatedButton(
                     _signGuest, "assets/icon/icon_guest.png", "게스트로 이용", const Color(0xffDCDCDC), Colors.black87
                 ),
-                Visibility(
-                    visible: _isDialogVisible,
-                    child: Container(
-                      color: Colors.black26,
-                      alignment: Alignment.center,
-                      child: const Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                )
               ],
+            ),
+          ) : const Center(
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: CircularProgressIndicator(
+                color: Colors.redAccent,
+              ),
             ),
           ),
         ),
