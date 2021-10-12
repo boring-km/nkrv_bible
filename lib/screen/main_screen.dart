@@ -3,9 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:nkrv_bible/screen/splash_screen.dart';
-
-import 'intro_screen.dart';
 import 'login_screen.dart';
 
 // ignore: use_key_in_widget_constructors
