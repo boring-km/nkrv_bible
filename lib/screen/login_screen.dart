@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
-import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
@@ -37,7 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _closeScreen() {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pop(context);
       Navigator.pop(context);
     });
   }

@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nkrv_bible/app.dart';
+import 'package:nkrv_bible/screen/main_screen.dart';
 
 // ignore: use_key_in_widget_constructors
 class SplashScreen extends StatefulWidget {
@@ -15,12 +17,19 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  final Logger logger = Logger();
+
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 2), () async {
+      try {
+        await Firebase.initializeApp();
+      } on Exception {
+        logger.printError(info: "firebase 초기화 에러");
+      }
+      Get.to(MainScreen(), transition: Transition.fade);
+    });
     super.initState();
-    Timer(
-      const Duration(seconds: 2), () => Get.offAll(App(), transition: Transition.fade),
-    );
   }
 
   @override
@@ -43,6 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(children: [
           Align(
