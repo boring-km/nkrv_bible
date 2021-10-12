@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:nkrv_bible/screen/main_screen.dart';
 
@@ -10,20 +13,24 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Firebase.initializeApp(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Center(
-            child: Text("Firebase load fail."),
-          );
-        }
-        if (snapshot.connectionState == ConnectionState.done) {
-          logger.d("Firebase load.");
-          return MainScreen();
-        }
-        return const CircularProgressIndicator();
-      },
+    check();
+    return const Scaffold(
+      body: SizedBox(
+        width: 30,
+        height: 30,
+        child: CircularProgressIndicator(
+          color: Colors.redAccent,
+        ),
+      ),
     );
+  }
+
+  void check() async {
+    try {
+      await Firebase.initializeApp();
+    } on Exception {
+      logger.printError(info: "firebase 초기화 에러");
+    }
+    Get.offAll(MainScreen(), transition: Transition.fadeIn);
   }
 }

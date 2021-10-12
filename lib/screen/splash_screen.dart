@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 4), () => Get.offAll(App(), transition: Transition.fade),
+      const Duration(seconds: 2), () => Get.offAll(App(), transition: Transition.fade),
     );
   }
 
@@ -57,6 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Center(
                 child: Lottie.asset(
                   'assets/lottie/54020-bible.json',
+                  repeat: false,
                 ),
               ),
             ),
