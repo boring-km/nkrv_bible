@@ -35,6 +35,28 @@ dependencies:
   # 텍스트 애니메이션
   animated_text_kit: ^4.2.1
 
+  # firebase
+  firebase_core: ^1.6.0
+  firebase_auth: ^3.1.1
+  flutter_web_auth: ^0.3.0
+  uuid: ^3.0.4
+
+  # google sign in
+  google_sign_in: ^5.1.0
+
+  # 페이스북 로그인
+  flutter_facebook_auth: ^3.5.1
+
+  # 카카오톡 로그인
+  kakao_flutter_sdk: ^0.7.1
+  dio:
+  json_annotation:
+  package_info:
+  platform:
+  shared_preferences:
+
+  flutter_dotenv: ^5.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -53,3 +75,11 @@ flutter:
   assets:
     - assets/
     - assets/lottie/
+    - assets/icon/icon_kakao.png
+    - assets/icon/icon_naver.png
+    - assets/icon/icon_google.png
+    - assets/icon/icon_facebook.png
+    - assets/icon/icon_email.png
+    - assets/icon/icon_guest.png
+    - assets/icon/icon_bible.png
+    - dev.env
