@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:nkrv_bible/res/custom_colors.dart';
 import 'login_screen.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -56,7 +57,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget buildMainView(String displayName, BuildContext context, double base) {
-
+    final w = MediaQuery.of(context).size.width;
+    final h = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         Align(
@@ -121,24 +123,154 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: CupertinoButton(
-                color: Colors.blue,
-                onPressed: () {
-                  Get.toNamed('/bible/select');
-                },
-                child: const Text(
-                  '성경',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        onPressed: () => Get.toNamed('/bible/select'),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          primary: Colors.white,
+                          onSurface: Colors.white70,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icon/icon_bible.png',
+                              width: w / 4,
+                              height: h / 4,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text("성경 전체 보기",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: base * 2,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        onPressed: () => Get.toNamed('/bible/select'),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          primary: Colors.white,
+                          onSurface: Colors.white70,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icon/icon_bible.png',
+                              width: w / 4,
+                              height: h / 4,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text("성경 전체 보기",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: base * 2,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
+                  ),
+                ],
               ),
-            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        onPressed: () => Get.toNamed('/bible/select'),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          primary: Colors.white,
+                          onSurface: Colors.white70,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icon/icon_bible.png',
+                              width: w / 4,
+                              height: h / 4,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text("성경 전체 보기",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: base * 2,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        onPressed: () => Get.toNamed('/bible/select'),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          primary: Colors.white,
+                          onSurface: Colors.white70,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icon/icon_bible.png',
+                              width: w / 4,
+                              height: h / 4,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text("성경 전체 보기",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: base * 2,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ],
