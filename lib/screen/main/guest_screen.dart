@@ -35,12 +35,10 @@ Center buildGuestView(BuildContext context) {
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: CupertinoButton(
+            child: const CupertinoButton(
               color: Colors.blue,
-              onPressed: () async {
-                await Auth.signOut();
-              },
-              child: const Text(
+              onPressed: Auth.signOut,
+              child: Text(
                 '로그아웃',
                 style: TextStyle(
                   fontSize: 15,
