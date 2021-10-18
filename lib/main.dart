@@ -5,7 +5,7 @@ import 'package:kakao_flutter_sdk/all.dart';
 import 'package:nkrv_bible/screen/bible_screen.dart';
 import 'package:nkrv_bible/screen/book_select_screen.dart';
 import 'package:nkrv_bible/screen/login_screen.dart';
-import 'package:nkrv_bible/screen/main_screen.dart';
+import 'package:nkrv_bible/screen/main/main_screen.dart';
 import 'package:nkrv_bible/screen/splash_screen.dart';
 
 Future main() async {

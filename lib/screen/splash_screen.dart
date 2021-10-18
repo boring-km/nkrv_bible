@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nkrv_bible/screen/main_screen.dart';
+import 'package:nkrv_bible/screen/main/main_screen.dart';
 
 // ignore: use_key_in_widget_constructors
 class SplashScreen extends StatefulWidget {

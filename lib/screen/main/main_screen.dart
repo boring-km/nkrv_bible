@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:nkrv_bible/res/custom_colors.dart';
-import 'login_screen.dart';
+import 'package:nkrv_bible/auth/firebase.dart';
+import 'package:nkrv_bible/screen/main/guest_screen.dart';
+import '../login_screen.dart';
 
 // ignore: use_key_in_widget_constructors
 class MainScreen extends StatefulWidget {
@@ -14,11 +15,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final Logger logger = Logger();
-
-  Future <LoginScreen> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    return LoginScreen();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +67,9 @@ class _MainScreenState extends State<MainScreen> {
                 PopupMenuButton(
                   color: Colors.white,
                   offset: Offset(base * 6, base * 3),
-                  onSelected: (result) {
+                  onSelected: (result) async {
                     if (result == 1) {
-                      _signOut();
+                      await Auth.signOut();
                     }
                   },
                   child: Icon(
@@ -280,55 +276,5 @@ class _MainScreenState extends State<MainScreen> {
   LoginScreen showLoginScreen() {
     logger.d("로그인을 해주세요.");
     return LoginScreen();
-  }
-
-  Center buildGuestView(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text("게스트님 환영합니다."),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: CupertinoButton(
-                color: Colors.blue,
-                onPressed: () {
-                  Get.toNamed('/bible/select');
-                },
-                child: const Text(
-                  '성경',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: CupertinoButton(
-                color: Colors.blue,
-                onPressed: _signOut,
-                child: const Text(
-                  '로그아웃',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
