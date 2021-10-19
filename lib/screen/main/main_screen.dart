@@ -24,18 +24,7 @@ class _MainScreenState extends State<MainScreen> {
     final base = w > h ? w / h * 10 : h / w * 10;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text("개역개정 성경",
-            style: TextStyle(
-              fontSize: base * 3,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+      appBar: buildAppBar(base),
       backgroundColor: Colors.black,
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -48,6 +37,21 @@ class _MainScreenState extends State<MainScreen> {
             return buildMainView(snapshot.data!.displayName!, context, base);
           }
         },
+      ),
+    );
+  }
+
+  AppBar buildAppBar(double base) {
+    return AppBar(
+      backgroundColor: Colors.black,
+      title: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Text("개역개정 성경",
+          style: TextStyle(
+            fontSize: base * 2.5,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
@@ -95,16 +99,17 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           child: Image.asset(
                             'assets/icon/icon_bible.png',
-                            width: w / 6,
-                            height: h / 6,
+                            width: w / 5,
+                            height: h / 8,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("성경 전체 보기",
+                          child: Text("성경\n전체 보기",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: base * 2,
+                              fontSize: base * 1.5,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -136,16 +141,17 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           child: Image.asset(
                             'assets/icon/icon_search.png',
-                            width: w / 6,
-                            height: h / 6,
+                            width: w / 5,
+                            height: h / 8,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("빠르게 검색하기",
+                          child: Text("빠르게\n검색하기",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: base * 2,
+                              fontSize: base * 1.5,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -183,16 +189,17 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           child: Image.asset(
                             'assets/icon/icon_bible.png',
-                            width: w / 6,
-                            height: h / 6,
+                            width: w / 5,
+                            height: h / 8,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("미정",
+                          child: Text("성경\n전체 보기",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: base * 2,
+                              fontSize: base * 1.5,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -224,16 +231,17 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           child: Image.asset(
                             'assets/icon/icon_search.png',
-                            width: w / 6,
-                            height: h / 6,
+                            width: w / 5,
+                            height: h / 8,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("미정",
+                          child: Text("빠르게\n검색하기",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: base * 2,
+                              fontSize: base * 1.5,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -257,30 +265,33 @@ class _MainScreenState extends State<MainScreen> {
         padding: const EdgeInsets.only(top: 16, right: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
             PopupMenuButton(
               color: Colors.white,
-              offset: Offset(base * 6, base * 3),
+              offset: Offset(base * 4, base * 2),
               onSelected: (result) {
                 if (result == 1) {
                   Auth.signOut();
                 }
               },
+              padding: const EdgeInsets.only(right: 0),
               child: Icon(
                 CupertinoIcons.profile_circled,
-                size: base * 2.5,
+                size: base * 1.5,
                 color: Colors.white,
               ),
               itemBuilder: (BuildContext context) {
                 var itemList = [
                   PopupMenuItem(
                     value: 1,
-                    height: base * 2,
+                    height: base,
+                    padding: const EdgeInsets.all(0),
+                    textStyle: TextStyle(color: Colors.black, fontSize: base),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(right: 2.0),
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: Icon(
                             Icons.logout,
                             color: Colors.black,
@@ -288,8 +299,8 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         Text(
                           '로그아웃',
-                          style: TextStyle(color: Colors.black, fontSize: base),
-                        )
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   ),
@@ -303,7 +314,7 @@ class _MainScreenState extends State<MainScreen> {
             Text(
               displayName,
               style: TextStyle(
-                fontSize: base * 2,
+                fontSize: base * 1.5,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
