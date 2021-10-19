@@ -15,6 +15,39 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final Logger logger = Logger();
+  bool _isLogged = false;
+
+  Widget? bodyWidget;
+
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(milliseconds: 500), () async {
+      Stream<User?> auth = FirebaseAuth.instance.authStateChanges();
+      await for(User? user in auth) {
+        if (user == null) {
+          setState(() {
+            _isLogged = false;
+          });
+          bodyWidget = showLoginScreen();
+        } else if (user.displayName == null || user.displayName == "") {
+          setState(() {
+            _isLogged = true;
+          });
+          bodyWidget = buildGuestView(context);
+        } else {
+          final w = MediaQuery.of(context).size.width;
+          final h = MediaQuery.of(context).size.height;
+          final base = w > h ? w / h * 10 : h / w * 10;
+          setState(() {
+            _isLogged = true;
+          });
+          bodyWidget = buildMainView(user.displayName!, context, base);
+        }
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +56,25 @@ class _MainScreenState extends State<MainScreen> {
     final h = MediaQuery.of(context).size.height;
     final base = w > h ? w / h * 10 : h / w * 10;
 
-    return Scaffold(
-      appBar: buildAppBar(base),
+    return bodyWidget == null ? buildLoadingView() :
+    Scaffold(
+      appBar: _isLogged ? buildAppBar(base) : null,
       backgroundColor: Colors.black,
-      body: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          if (!snapshot.hasData) {
-            return showLoginScreen();
-          } else if (snapshot.data!.displayName == null || snapshot.data!.displayName == "") {
-            return buildGuestView(context);
-          } else {
-            return buildMainView(snapshot.data!.displayName!, context, base);
-          }
-        },
+      body: bodyWidget,
+    );
+  }
+
+  Scaffold buildLoadingView() {
+    return const Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: CircularProgressIndicator(
+            color: Colors.redAccent,
+          ),
+        ),
       ),
     );
   }
@@ -273,6 +311,9 @@ class _MainScreenState extends State<MainScreen> {
               onSelected: (result) {
                 if (result == 1) {
                   Auth.signOut();
+                  setState(() {
+                    _isLogged = false;
+                  });
                 }
               },
               padding: const EdgeInsets.only(right: 0),

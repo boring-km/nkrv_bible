@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
 
+import 'main_screen.dart';
+
 Center buildGuestView(BuildContext context) {
   return Center(
     child: Column(
@@ -35,10 +37,13 @@ Center buildGuestView(BuildContext context) {
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: const CupertinoButton(
+            child: CupertinoButton(
               color: Colors.blue,
-              onPressed: Auth.signOut,
-              child: Text(
+              onPressed: () {
+                Auth.signOut();
+                Get.offAll(MainScreen());
+              },
+              child: const Text(
                 '로그아웃',
                 style: TextStyle(
                   fontSize: 15,
