@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: DefaultTextStyle(
                 style: TextStyle(
                   fontSize: base / 4,
-                  color: Colors.black,
+                  color: Colors.white,
                   shadows: bottomTextShadow,
                 ),
                 child: AnimatedTextKit(
