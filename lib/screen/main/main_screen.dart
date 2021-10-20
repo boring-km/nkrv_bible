@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
+import 'package:nkrv_bible/screen/book_select_screen.dart';
 import 'package:nkrv_bible/screen/main/guest_screen.dart';
 import '../login_screen.dart';
 
@@ -117,7 +118,7 @@ class _MainScreenState extends State<MainScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () => Get.toNamed('/bible/select'),
+                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
@@ -159,7 +160,7 @@ class _MainScreenState extends State<MainScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () => Get.toNamed('/bible/select'),
+                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
@@ -207,7 +208,7 @@ class _MainScreenState extends State<MainScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () => Get.toNamed('/bible/select'),
+                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
@@ -249,7 +250,7 @@ class _MainScreenState extends State<MainScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () => Get.toNamed('/bible/select'),
+                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
