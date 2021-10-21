@@ -75,11 +75,5 @@ flutter:
   assets:
     - assets/
     - assets/lottie/
-    - assets/icon/icon_kakao.png
-    - assets/icon/icon_naver.png
-    - assets/icon/icon_google.png
-    - assets/icon/icon_facebook.png
-    - assets/icon/icon_email.png
-    - assets/icon/icon_guest.png
-    - assets/icon/icon_bible.png
+    - assets/icon/
     - dev.env

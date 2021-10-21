@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nkrv_bible/screen/main_screen.dart';
+import 'package:nkrv_bible/screen/main/main_screen.dart';
 
 // ignore: use_key_in_widget_constructors
 class SplashScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } on Exception {
         logger.printError(info: "firebase 초기화 에러");
       }
-      Get.to(MainScreen(), transition: Transition.fade);
+      Get.offAll(MainScreen(), transition: Transition.fade);
     });
     super.initState();
   }
@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: DefaultTextStyle(
                 style: TextStyle(
                   fontSize: base / 4,
-                  color: Colors.black,
+                  color: Colors.white,
                   shadows: bottomTextShadow,
                 ),
                 child: AnimatedTextKit(
