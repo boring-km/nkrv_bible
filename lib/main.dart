@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -9,7 +8,6 @@ import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main/main_screen.dart';
 import 'package:nkrv_bible/screen/splash_screen.dart';
 
-import 'binding/main_binding.dart';
 
 Future main() async {
   await dotenv.load(fileName: 'dev.env');
