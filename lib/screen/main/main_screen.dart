@@ -1,54 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
-import 'package:nkrv_bible/screen/book_select_screen.dart';
-import 'package:nkrv_bible/screen/main/guest_screen.dart';
-import '../login_screen.dart';
+import 'package:nkrv_bible/controller/main_controller.dart';
+import 'package:nkrv_bible/provider/main_provider.dart';
+import '../book_select_screen.dart';
+import 'guest_screen.dart';
 
-// ignore: use_key_in_widget_constructors
-class MainScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _MainScreenState();
-}
+class MainScreen extends GetView<MainController> {
 
-class _MainScreenState extends State<MainScreen> {
-  final Logger logger = Logger();
-  bool _isLogged = false;
-
-  Widget? bodyWidget;
-
-
-  @override
-  void initState() {
-    Future.delayed(const Duration(milliseconds: 500), () async {
-      Stream<User?> auth = FirebaseAuth.instance.authStateChanges();
-      await for(User? user in auth) {
-        if (user == null) {
-          setState(() {
-            _isLogged = false;
-          });
-          bodyWidget = showLoginScreen();
-        } else if (user.displayName == null || user.displayName == "") {
-          setState(() {
-            _isLogged = true;
-          });
-          bodyWidget = buildGuestView(context);
-        } else {
-          final w = MediaQuery.of(context).size.width;
-          final h = MediaQuery.of(context).size.height;
-          final base = w > h ? w / h * 10 : h / w * 10;
-          setState(() {
-            _isLogged = true;
-          });
-          bodyWidget = buildMainView(user.displayName!, context, base);
-        }
-      }
-    });
-    super.initState();
-  }
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,30 +18,17 @@ class _MainScreenState extends State<MainScreen> {
     final h = MediaQuery.of(context).size.height;
     final base = w > h ? w / h * 10 : h / w * 10;
 
-    return bodyWidget == null ? buildLoadingView() :
-    Scaffold(
-      appBar: _isLogged ? buildAppBar(base) : null,
+    return Scaffold(
+      appBar: buildAppBar(base),
       backgroundColor: Colors.black,
-      body: bodyWidget,
+      body: showView(),
     );
   }
 
-  Scaffold buildLoadingView() {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: CircularProgressIndicator(
-            color: Colors.redAccent,
-          ),
-        ),
-      ),
-    );
-  }
-
-  AppBar buildAppBar(double base) {
+  buildAppBar(double base) {
+    if (!isLogged()) {
+      return null;
+    }
     return AppBar(
       backgroundColor: Colors.black,
       title: Padding(
@@ -95,9 +43,21 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget buildMainView(String displayName, BuildContext context, double base) {
-    final w = MediaQuery.of(context).size.width;
-    final h = MediaQuery.of(context).size.height;
+  Widget showView() {
+    if (controller.userStatus.value == UserStatus.GUEST) {
+      return Obx(() => buildGuestView(Get.width));
+    } else if (controller.userStatus.value == UserStatus.USER) {
+      return Obx(() => buildMainView(controller.name.value));
+    } else {
+      return Obx(() => Container());
+    }
+  }
+
+  Widget buildMainView(String displayName) {
+    var w = Get.width;
+    var h = Get.height;
+    final base = w > h ? w / h * 10 : h / w * 10;
+
     return Stack(
       children: [
         buildUserWidget(base, displayName),
@@ -312,9 +272,7 @@ class _MainScreenState extends State<MainScreen> {
               onSelected: (result) {
                 if (result == 1) {
                   Auth.signOut();
-                  setState(() {
-                    _isLogged = false;
-                  });
+                  Get.offAll(const MainScreen());
                 }
               },
               padding: const EdgeInsets.only(right: 0),
@@ -367,8 +325,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  LoginScreen showLoginScreen() {
-    logger.d("로그인을 해주세요.");
-    return LoginScreen();
+  bool isLogged() {
+    return controller.userStatus.value != UserStatus.NONE;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,8 @@ import 'package:nkrv_bible/screen/book_select_screen.dart';
 import 'package:nkrv_bible/screen/login_screen.dart';
 import 'package:nkrv_bible/screen/main/main_screen.dart';
 import 'package:nkrv_bible/screen/splash_screen.dart';
+
+import 'binding/main_binding.dart';
 
 Future main() async {
   await dotenv.load(fileName: 'dev.env');
@@ -32,7 +35,7 @@ class BibleApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => SplashScreen()),
         GetPage(name: '/login', page: () => LoginScreen()),
-        GetPage(name: '/main', page: () => MainScreen()),
+        GetPage(name: '/main', page: () => const MainScreen(), binding: MainBindings(), transition: Transition.fade),
         GetPage(name: '/bible/select', page: () => const BookSelectScreen()),
         GetPage(name: '/bible', page: () => const BibleScreen()),
       ],

@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } on Exception {
         logger.printError(info: "firebase 초기화 에러");
       }
-      Get.offAll(MainScreen(), transition: Transition.fade);
+      Get.offAllNamed('login');
     });
     super.initState();
   }

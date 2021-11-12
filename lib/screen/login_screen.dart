@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
@@ -46,15 +47,14 @@ class _LoginScreenState extends State<LoginScreen> {
     FirebaseAuth.instance.signInAnonymously();
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  void signInWithGoogle() async {
     _onLoading();
 
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-    await googleUser!.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -63,10 +63,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    Get.toNamed('/main');
   }
 
-  Future<UserCredential> signInWithFacebook() async {
+  void signInWithFacebook() async {
     _onLoading();
 
     // Trigger the sign-in flow
@@ -77,12 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
     FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
-    var credential = FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
     _closeScreen();
-    return credential;
   }
 
-  Future<UserCredential> signInWithKaKao() async {
+  void signInWithKaKao() async {
     _onLoading();
 
     final clientState = const Uuid().v4();
@@ -108,17 +108,16 @@ class _LoginScreenState extends State<LoginScreen> {
       'code': body["code"],
     });
     var responseTokens = await http.post(Uri.parse(tokenUrl.toString()));
-    Map<String, dynamic> bodys = json.decode(responseTokens.body);
+    Map<String, dynamic> bodyMap = json.decode(responseTokens.body);
     var response = await http.post(
         Uri.parse(
             '$callbackURL/callbacks/kakao/token'),
-        body: {"accessToken": bodys['access_token']});
-    final token = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+        body: {"accessToken": bodyMap['access_token']});
+    await FirebaseAuth.instance.signInWithCustomToken(response.body);
     _closeScreen();
-    return token;
   }
 
-  Future<UserCredential> signInWithNaver() async {
+  void signInWithNaver() async {
     _onLoading();
 
     final clientState = const Uuid().v4();
@@ -147,9 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(
             "$callbackURL/callbacks/naver/token"),
         body: {"accessToken": bodys['access_token']});
-    final credential = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+    await FirebaseAuth.instance.signInWithCustomToken(response.body);
     _closeScreen();
-    return credential;
   }
 
 

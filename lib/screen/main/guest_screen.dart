@@ -5,7 +5,7 @@ import 'package:nkrv_bible/auth/firebase.dart';
 
 import 'main_screen.dart';
 
-Center buildGuestView(BuildContext context) {
+Center buildGuestView(double width) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -17,7 +17,7 @@ Center buildGuestView(BuildContext context) {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width,
+            width: width,
             child: CupertinoButton(
               color: Colors.blue,
               onPressed: () {
@@ -36,12 +36,12 @@ Center buildGuestView(BuildContext context) {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width,
+            width: width,
             child: CupertinoButton(
               color: Colors.blue,
               onPressed: () {
                 Auth.signOut();
-                Get.offAll(MainScreen());
+                Get.offAll(const MainScreen());
               },
               child: const Text(
                 '로그아웃',
