@@ -44,13 +44,15 @@ class MainScreen extends GetView<MainController> {
   }
 
   Widget showView() {
-    if (controller.userStatus.value == UserStatus.GUEST) {
-      return Obx(() => buildGuestView(Get.width));
-    } else if (controller.userStatus.value == UserStatus.USER) {
-      return Obx(() => buildMainView(controller.name.value));
-    } else {
-      return Obx(() => Container());
-    }
+    return Obx(() {
+      if (controller.userStatus.value == UserStatus.GUEST) {
+        return buildGuestView(Get.width);
+      } else if (controller.userStatus.value == UserStatus.USER) {
+        return buildMainView(controller.name.value);
+      } else {
+        return Container();
+      }
+    });
   }
 
   Widget buildMainView(String displayName) {
