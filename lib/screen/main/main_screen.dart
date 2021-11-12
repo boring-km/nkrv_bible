@@ -2,14 +2,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
-import 'package:nkrv_bible/controller/main_controller.dart';
 import 'package:nkrv_bible/provider/main_provider.dart';
 import '../book_select_screen.dart';
 import 'guest_screen.dart';
 
-class MainScreen extends GetView<MainController> {
-
+class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  Widget? bodyWidget;
+  Provider? _provider;
+  UserStatus userStatus = UserStatus.NONE;
+  bool isInitialized = false;
+  String name = "";
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      _provider = Provider();
+      await _provider!.getUser();
+      userStatus = _provider!.userStatus;
+      name = _provider!.name;
+      setState(() {
+        isInitialized = true;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +40,10 @@ class MainScreen extends GetView<MainController> {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
     final base = w > h ? w / h * 10 : h / w * 10;
+
+    if (!isInitialized) {
+      return buildLoadingView();
+    }
 
     return Scaffold(
       appBar: buildAppBar(base),
@@ -44,15 +71,13 @@ class MainScreen extends GetView<MainController> {
   }
 
   Widget showView() {
-    return Obx(() {
-      if (controller.userStatus.value == UserStatus.GUEST) {
-        return buildGuestView(Get.width);
-      } else if (controller.userStatus.value == UserStatus.USER) {
-        return buildMainView(controller.name.value);
-      } else {
-        return Container();
-      }
-    });
+    if (userStatus == UserStatus.GUEST) {
+      return buildGuestView(Get.width);
+    } else if (userStatus == UserStatus.USER) {
+      return buildMainView(name);
+    } else {
+      return Container();
+    }
   }
 
   Widget buildMainView(String displayName) {
@@ -328,6 +353,21 @@ class MainScreen extends GetView<MainController> {
   }
 
   bool isLogged() {
-    return controller.userStatus.value != UserStatus.NONE;
+    return userStatus != UserStatus.NONE;
+  }
+
+  Scaffold buildLoadingView() {
+    return const Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: CircularProgressIndicator(
+            color: Colors.redAccent,
+          ),
+        ),
+      ),
+    );
   }
 }

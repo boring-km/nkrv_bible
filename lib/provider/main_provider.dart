@@ -40,6 +40,30 @@ class MainProvider extends GetConnect {
   }
 }
 
+class Provider {
+
+  final Logger _logger = Logger();
+  var token = "";
+  var name = "";
+  var userStatus = UserStatus.NONE;
+
+  getUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      userStatus = UserStatus.NONE;
+      _logger.i("로그인 된 유저 없음");
+    } else if (user.displayName == null || user.displayName == "") {
+      userStatus = UserStatus.GUEST;
+      _logger.i("게스트 로그인");
+    } else {
+      token = (await user.getIdToken());
+      userStatus = UserStatus.USER;
+      name = (user.displayName != null ? user.displayName! : "");
+      _logger.i("로그인한 유저 : $name");
+    }
+  }
+}
+
 enum UserStatus {
   NONE, GUEST, USER
 }
