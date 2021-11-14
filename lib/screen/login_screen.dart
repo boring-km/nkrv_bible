@@ -57,14 +57,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
     // Create a new credential
-    final credential = GoogleAuthProvider.credential(
+    final googleAuthCredential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
     // Once signed in, return the UserCredential
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    Get.toNamed('/main');
+    final credential = await FirebaseAuth.instance.signInWithCredential(googleAuthCredential);
+    final user = credential.user;
+    if (user != null) {
+      final token = await user.getIdToken(false);
+      final name = user.displayName;
+      Get.offAllNamed('/main?token=$token&name=$name');
+    }
   }
 
   void signInWithFacebook() async {
@@ -78,8 +83,14 @@ class _LoginScreenState extends State<LoginScreen> {
     FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
-    FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    _closeScreen();
+    final credential = await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    final user = credential.user;
+    if (user != null) {
+      final token = await user.getIdToken(false);
+      final name = user.displayName;
+      _closeScreen();
+      Get.offAllNamed('/main?token=$token&name=$name');
+    }
   }
 
   void signInWithKaKao() async {
@@ -113,8 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(
             '$callbackURL/callbacks/kakao/token'),
         body: {"accessToken": bodyMap['access_token']});
-    await FirebaseAuth.instance.signInWithCustomToken(response.body);
-    _closeScreen();
+    final credential = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+    final user = credential.user;
+    if (user != null) {
+      final token = await user.getIdToken(false);
+      final name = user.displayName;
+      _closeScreen();
+      Get.offAllNamed('/main?token=$token&name=$name');
+    }
   }
 
   void signInWithNaver() async {
@@ -146,8 +163,14 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(
             "$callbackURL/callbacks/naver/token"),
         body: {"accessToken": bodys['access_token']});
-    await FirebaseAuth.instance.signInWithCustomToken(response.body);
-    _closeScreen();
+    final credential = await FirebaseAuth.instance.signInWithCustomToken(response.body);
+    final user = credential.user;
+    if (user != null) {
+      final token = await user.getIdToken(false);
+      final name = user.displayName;
+      _closeScreen();
+      Get.offAllNamed('/main?token=$token&name=$name');
+    }
   }
 
 

@@ -2,37 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
-import 'package:nkrv_bible/provider/main_provider.dart';
+import 'package:nkrv_bible/controller/main_controller.dart';
 import '../book_select_screen.dart';
-import 'guest_screen.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends GetView<MainController> {
+
   const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  Widget? bodyWidget;
-  Provider? _provider;
-  UserStatus userStatus = UserStatus.NONE;
-  bool isInitialized = false;
-  String name = "";
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      _provider = Provider();
-      await _provider!.getUser();
-      userStatus = _provider!.userStatus;
-      name = _provider!.name;
-      setState(() {
-        isInitialized = true;
-      });
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +16,14 @@ class _MainScreenState extends State<MainScreen> {
     final h = MediaQuery.of(context).size.height;
     final base = w > h ? w / h * 10 : h / w * 10;
 
-    if (!isInitialized) {
-      return buildLoadingView();
-    }
-
     return Scaffold(
       appBar: buildAppBar(base),
       backgroundColor: Colors.black,
-      body: showView(),
+      body: buildMainView(controller.name),
     );
   }
 
   buildAppBar(double base) {
-    if (!isLogged()) {
-      return null;
-    }
     return AppBar(
       backgroundColor: Colors.black,
       title: Padding(
@@ -68,16 +36,6 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-  }
-
-  Widget showView() {
-    if (userStatus == UserStatus.GUEST) {
-      return buildGuestView(Get.width);
-    } else if (userStatus == UserStatus.USER) {
-      return buildMainView(name);
-    } else {
-      return Container();
-    }
   }
 
   Widget buildMainView(String displayName) {
@@ -299,7 +257,7 @@ class _MainScreenState extends State<MainScreen> {
               onSelected: (result) {
                 if (result == 1) {
                   Auth.signOut();
-                  Get.offAll(const MainScreen());
+                  Get.offAllNamed('login');
                 }
               },
               padding: const EdgeInsets.only(right: 0),
@@ -350,10 +308,6 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-  }
-
-  bool isLogged() {
-    return userStatus != UserStatus.NONE;
   }
 
   Scaffold buildLoadingView() {
