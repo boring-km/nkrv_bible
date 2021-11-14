@@ -35,12 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _closeScreen() {
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pop(context);
-    });
-  }
-
   void _signGuest() {
     _onLoading();
 
@@ -88,8 +82,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       final token = await user.getIdToken(false);
       final name = user.displayName;
-      _closeScreen();
       Get.offAllNamed('/main?token=$token&name=$name');
+    } else {
+      logger.e('로그인 실패');
+      setState(() {
+        _isDialogVisible = false;
+      });
     }
   }
 
@@ -129,8 +127,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       final token = await user.getIdToken(false);
       final name = user.displayName;
-      _closeScreen();
       Get.offAllNamed('/main?token=$token&name=$name');
+    } else {
+      logger.e('로그인 실패');
+      setState(() {
+        _isDialogVisible = false;
+      });
     }
   }
 
@@ -168,8 +170,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       final token = await user.getIdToken(false);
       final name = user.displayName;
-      _closeScreen();
       Get.offAllNamed('/main?token=$token&name=$name');
+    } else {
+      logger.e('로그인 실패');
+      setState(() {
+        _isDialogVisible = false;
+      });
     }
   }
 
@@ -192,12 +198,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     signInWithFacebook, "assets/icon/icon_facebook.png", "페이스북 로그인", const Color(0xff3B5998), Colors.white
                 ),
                 // 테스트 모드에선 오류 발생 - 이메일 필수 동의가 아니기 때문에 정식 출시 시 이메일 필수 동의하기.
-                buildElevatedButton(
-                    signInWithKaKao, "assets/icon/icon_kakao.png", "카카오 로그인", const Color(0xffFEE500), Colors.black87
-                ),
-                buildElevatedButton(
-                    signInWithNaver, "assets/icon/icon_naver.png", "네이버 로그인", const Color(0xff1DC800), Colors.white
-                ),
+                // buildElevatedButton(
+                //     signInWithKaKao, "assets/icon/icon_kakao.png", "카카오 로그인", const Color(0xffFEE500), Colors.black87
+                // ),
+                // buildElevatedButton(
+                //     signInWithNaver, "assets/icon/icon_naver.png", "네이버 로그인", const Color(0xff1DC800), Colors.white
+                // ),
                 const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text("또는"),
