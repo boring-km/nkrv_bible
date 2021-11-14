@@ -35,10 +35,21 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _signGuest() {
+  void _signGuest() async {
     _onLoading();
 
-    FirebaseAuth.instance.signInAnonymously();
+    final credential = await FirebaseAuth.instance.signInAnonymously();
+    final user = credential.user;
+    if (user != null) {
+      const token = '';
+      const name = '게스트';
+      Get.offAllNamed('/main?token=$token&name=$name&guest=true');
+    } else {
+      logger.e('로그인 실패');
+      setState(() {
+        _isDialogVisible = false;
+      });
+    }
   }
 
   void signInWithGoogle() async {
@@ -62,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       final token = await user.getIdToken(false);
       final name = user.displayName;
-      Get.offAllNamed('/main?token=$token&name=$name');
+      Get.offAllNamed('/main?token=$token&name=$name&guest=false');
     }
   }
 
@@ -82,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       final token = await user.getIdToken(false);
       final name = user.displayName;
-      Get.offAllNamed('/main?token=$token&name=$name');
+      Get.offAllNamed('/main?token=$token&name=$name&guest=false');
     } else {
       logger.e('로그인 실패');
       setState(() {
@@ -127,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       final token = await user.getIdToken(false);
       final name = user.displayName;
-      Get.offAllNamed('/main?token=$token&name=$name');
+      Get.offAllNamed('/main?token=$token&name=$name&guest=false');
     } else {
       logger.e('로그인 실패');
       setState(() {
@@ -170,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       final token = await user.getIdToken(false);
       final name = user.displayName;
-      Get.offAllNamed('/main?token=$token&name=$name');
+      Get.offAllNamed('/main?token=$token&name=$name&guest=false');
     } else {
       logger.e('로그인 실패');
       setState(() {

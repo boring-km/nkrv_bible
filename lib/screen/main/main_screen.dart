@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
 import 'package:nkrv_bible/controller/main_controller.dart';
+import 'package:nkrv_bible/screen/main/guest_screen.dart';
 import '../book_select_screen.dart';
 
 class MainScreen extends GetView<MainController> {
@@ -42,6 +43,10 @@ class MainScreen extends GetView<MainController> {
     var w = Get.width;
     var h = Get.height;
     final base = w > h ? w / h * 10 : h / w * 10;
+
+    if (controller.isGuest) {
+      return buildGuestView(w);
+    }
 
     return Stack(
       children: [
