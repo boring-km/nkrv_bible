@@ -91,12 +91,13 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
                   },
                   controller: editingController,
                   decoration: const InputDecoration(
-                      labelText: "검색",
-                      hintText: "검색",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(25.0)))),
+                    labelText: "검색",
+                    hintText: "검색",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    ),
+                  ),
                 ),
               ),
             ),

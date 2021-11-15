@@ -194,43 +194,41 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          child:
-          !_isDialogVisible ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                buildElevatedButton(
-                    signInWithGoogle, "assets/icon/icon_google.png", "구글 로그인", const Color(0xffffffff), Colors.black54
-                ),
-                buildElevatedButton(
-                    signInWithFacebook, "assets/icon/icon_facebook.png", "페이스북 로그인", const Color(0xff3B5998), Colors.white
-                ),
-                // 테스트 모드에선 오류 발생 - 이메일 필수 동의가 아니기 때문에 정식 출시 시 이메일 필수 동의하기.
-                // buildElevatedButton(
-                //     signInWithKaKao, "assets/icon/icon_kakao.png", "카카오 로그인", const Color(0xffFEE500), Colors.black87
-                // ),
-                // buildElevatedButton(
-                //     signInWithNaver, "assets/icon/icon_naver.png", "네이버 로그인", const Color(0xff1DC800), Colors.white
-                // ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text("또는"),
-                ),
-                buildElevatedButton(
-                    _signGuest, "assets/icon/icon_guest.png", "게스트로 이용", const Color(0xffDCDCDC), Colors.black87
-                ),
-              ],
-            ),
-          ) : const Center(
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
+      body: Container(
+        color: Colors.white,
+        child:
+        !_isDialogVisible ? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              buildElevatedButton(
+                  signInWithGoogle, "assets/icon/icon_google.png", "구글 로그인", const Color(0xffffffff), Colors.black54
               ),
+              buildElevatedButton(
+                  signInWithFacebook, "assets/icon/icon_facebook.png", "페이스북 로그인", const Color(0xff3B5998), Colors.white
+              ),
+              // 테스트 모드에선 오류 발생 - 이메일 필수 동의가 아니기 때문에 정식 출시 시 이메일 필수 동의하기.
+              // buildElevatedButton(
+              //     signInWithKaKao, "assets/icon/icon_kakao.png", "카카오 로그인", const Color(0xffFEE500), Colors.black87
+              // ),
+              // buildElevatedButton(
+              //     signInWithNaver, "assets/icon/icon_naver.png", "네이버 로그인", const Color(0xff1DC800), Colors.white
+              // ),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text("또는"),
+              ),
+              buildElevatedButton(
+                  _signGuest, "assets/icon/icon_guest.png", "게스트로 이용", const Color(0xffDCDCDC), Colors.black87
+              ),
+            ],
+          ),
+        ) : const Center(
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: CircularProgressIndicator(
+              color: Colors.redAccent,
             ),
           ),
         ),

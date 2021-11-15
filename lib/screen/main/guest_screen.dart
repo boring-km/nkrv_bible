@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
 
-import 'main_screen.dart';
-
 Center buildGuestView(double width) {
   return Center(
     child: Column(
@@ -41,7 +39,7 @@ Center buildGuestView(double width) {
               color: Colors.blue,
               onPressed: () {
                 Auth.signOut();
-                Get.offAll(const MainScreen());
+                Get.offAllNamed('login');
               },
               child: const Text(
                 '로그아웃',
