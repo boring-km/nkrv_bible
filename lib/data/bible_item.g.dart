@@ -1,0 +1,1 @@
+part 'bible_item.g.dart';
