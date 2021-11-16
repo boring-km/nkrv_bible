@@ -6,7 +6,7 @@ import 'package:nkrv_bible/data/bible_item.dart';
 
 class BibleAPI {
 
-  static const baseUrl = 'http://192.168.13.72:3000';
+  static const baseUrl = 'http://192.168.35.2:3000';
 
   static Future<String> searchOne(String label, int paragraph, int chapter) async {
     final uri = Uri.parse('$baseUrl/searchOne/$label/$paragraph/$chapter');

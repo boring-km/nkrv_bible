@@ -7,22 +7,22 @@ part 'bible_item.g.dart';
 class BibleItem {
 
   @JsonKey(name: 'label')
-  String longLabel;
+  final String longLabel;
 
   @JsonKey(name: 'chapter')
-  int chapter;
+  final int chapter;
 
   @JsonKey(name: 'paragraph')
-  int paragraph;
+  final int paragraph;
 
   @JsonKey(name: 'sentence')
-  String sentence;
+  final String sentence;
 
   BibleItem(this.longLabel, this.chapter, this.paragraph, this.sentence);
 
   factory BibleItem.fromJson(Map<String, dynamic> json) => _$BibleItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BibleItemDataToJson(this);
+  Map<String, dynamic> toJson() => _$BibleItemToJson(this);
 
   @override
   String toString() {
