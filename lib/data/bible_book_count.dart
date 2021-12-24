@@ -25,3 +25,9 @@ class BibleBookCount {
     return 'BibleBookCount{longLabel: $longLabel, chapter: $chapter, count: $count}';
   }
 }
+
+class BibleBookCountList {
+  final List<BibleBookCount> list;
+
+  BibleBookCountList(this.list);
+}

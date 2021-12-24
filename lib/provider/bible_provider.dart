@@ -2,9 +2,8 @@ import 'package:get/get.dart';
 import 'dart:convert';
 
 import 'package:nkrv_bible/data/bible_book_count.dart';
-import 'package:nkrv_bible/data/bible_count_response_data.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
-import 'package:nkrv_bible/data/bible_response_data.dart';
+import 'package:nkrv_bible/data/response_data.dart';
 
 class BibleProvider extends GetConnect {
 
@@ -25,7 +24,7 @@ class BibleProvider extends GetConnect {
       return "";
     }
     var decodedBody = json.decode(body);
-    var responseData = BibleResponseData<BibleItem>.fromJson(decodedBody);
+    var responseData = ResponseData<BibleItem>.fromJson(decodedBody);
     return responseData.response.sentence;
   }
 
@@ -36,8 +35,7 @@ class BibleProvider extends GetConnect {
       return [];
     }
     var decode = json.decode(body);
-    var responseData = BibleResponseData<List<BibleItem>>.fromJson(decode);
-    return responseData.response;
+    return ResponseData<BibleItemList>.fromJson(decode).response.list;
   }
 
   Future<List<BibleItem>> searchParagraph(String label, int paragraph) async {
@@ -46,7 +44,7 @@ class BibleProvider extends GetConnect {
     if (body == null || body.isEmpty) {
       return [];
     }
-    return BibleResponseData<List<BibleItem>>.fromJson(json.decode(body)).response;
+    return ResponseData<BibleItemList>.fromJson(json.decode(body)).response.list;
   }
 
   Future<List<BibleItem>> searchLongLabel(String label) async {
@@ -55,7 +53,7 @@ class BibleProvider extends GetConnect {
     if (body == null || body.isEmpty) {
       return [];
     }
-    return BibleResponseData<List<BibleItem>>.fromJson(json.decode(body)).response;
+    return ResponseData<BibleItemList>.fromJson(json.decode(body)).response.list;
   }
 
   Future<List<BibleBookCount>> getBookCountList(String label) async {
@@ -64,7 +62,7 @@ class BibleProvider extends GetConnect {
     if (body == null || body.isEmpty) {
       return [];
     }
-    return BibleCountResponseData<List<BibleBookCount>>.fromJson(json.decode(body)).response;
+    return ResponseData<BibleBookCountList>.fromJson(json.decode(body)).response.list;
   }
 
   Future<int> getPreviousTextTotalLength(String label, int chapter) async {

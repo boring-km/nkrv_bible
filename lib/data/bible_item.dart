@@ -29,3 +29,9 @@ class BibleItem {
     return 'BibleItem{longLabel: $longLabel, chapter: $chapter, paragraph: $paragraph, sentence: $sentence}';
   }
 }
+
+class BibleItemList {
+  final List<BibleItem> list;
+
+  BibleItemList(this.list);
+}
