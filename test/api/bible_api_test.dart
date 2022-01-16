@@ -1,6 +1,6 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
 import 'package:nkrv_bible/api/bible_api.dart';
-import 'package:test/test.dart';
 
 void main() {
 
