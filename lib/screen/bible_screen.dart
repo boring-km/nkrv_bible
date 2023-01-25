@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:nkrv_bible/api/bible_api.dart';
 import 'package:nkrv_bible/data/bible_book_count.dart';
@@ -9,9 +10,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 
 class BibleScreen extends StatefulWidget {
 
-  final String? label;
-
-  const BibleScreen({Key? key, this.label}) : super(key: key);
+  const BibleScreen({Key? key}) : super(key: key);
 
   @override
   State createState() => _BibleScreenState();
@@ -46,7 +45,7 @@ class _BibleScreenState extends State<BibleScreen> {
       axis: Axis.vertical,
     );
     Future.delayed(Duration.zero, () async {
-      await setBibleText(widget.label!);
+      await setBibleText(Get.arguments['label']);
     });
     super.initState();
   }

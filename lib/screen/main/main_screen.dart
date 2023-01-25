@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
 import 'package:nkrv_bible/controller/main_controller.dart';
 import 'package:nkrv_bible/screen/main/guest_screen.dart';
+import 'package:nkrv_bible/utils/screen_util.dart';
 import '../book_select_screen.dart';
 
 class MainScreen extends GetView<MainController> {
-
   const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    setLightStatusBarIcon();
 
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
@@ -29,7 +31,8 @@ class MainScreen extends GetView<MainController> {
       backgroundColor: Colors.black,
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Text("개역개정 성경",
+        child: Text(
+          "개역개정 성경",
           style: TextStyle(
             fontSize: base * 2.5,
             fontWeight: FontWeight.bold,
@@ -51,199 +54,109 @@ class MainScreen extends GetView<MainController> {
     return Stack(
       children: [
         buildUserWidget(base, displayName),
-        buildFourButtons(w, h, base),
+        buildButtons(w, h, base),
       ],
     );
   }
 
-  Center buildFourButtons(double w, double h, double base) {
+  Center buildButtons(double w, double h, double base) {
     return Center(
-      child: Column(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      primary: Colors.white,
-                      onSurface: Colors.white70,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 32,
-                            left: 32,
-                            right: 32,
-                            bottom: 8,
-                          ),
-                          child: Image.asset(
-                            'assets/icon/icon_bible.png',
-                            width: w / 5,
-                            height: h / 8,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("성경\n전체 보기",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: base * 1.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+          Container(
+            constraints: const BoxConstraints(maxHeight: 300),
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                onPressed: () => Get.to(const BookSelectScreen(),
+                    transition: Transition.fade),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  disabledForegroundColor: Colors.white70.withOpacity(0.38),
+                  disabledBackgroundColor: Colors.white70.withOpacity(0.12),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 32,
+                        left: 32,
+                        right: 32,
+                        bottom: 8,
                       ),
-                      primary: Colors.white,
-                      onSurface: Colors.white70,
+                      child: Image.asset(
+                        'assets/icon/icon_bible.png',
+                        width: w / 5,
+                        height: h / 8,
+                      ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 32,
-                            left: 32,
-                            right: 32,
-                            bottom: 8,
-                          ),
-                          child: Image.asset(
-                            'assets/icon/icon_search.png',
-                            width: w / 5,
-                            height: h / 8,
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Text(
+                        "성경\n전체 보기",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: base * 1.5,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("빠르게\n검색하기",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: base * 1.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                ),
-              ),
-            ],
+                      ),
+                    ),
+                  ],
+                )),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      primary: Colors.white,
-                      onSurface: Colors.white70,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 32,
-                            left: 32,
-                            right: 32,
-                            bottom: 8,
-                          ),
-                          child: Image.asset(
-                            'assets/icon/icon_bible.png',
-                            width: w / 5,
-                            height: h / 8,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("성경\n전체 보기",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: base * 1.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+          Container(
+            constraints: const BoxConstraints(maxHeight: 300),
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                onPressed: () => Get.to(const BookSelectScreen(),
+                    transition: Transition.fade),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  disabledForegroundColor: Colors.white70.withOpacity(0.38),
+                  disabledBackgroundColor: Colors.white70.withOpacity(0.12),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () => Get.to(const BookSelectScreen(), transition: Transition.fade),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 32,
+                        left: 32,
+                        right: 32,
+                        bottom: 8,
                       ),
-                      primary: Colors.white,
-                      onSurface: Colors.white70,
+                      child: Image.asset(
+                        'assets/icon/icon_search.png',
+                        width: w / 5,
+                        height: h / 8,
+                      ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 32,
-                            left: 32,
-                            right: 32,
-                            bottom: 8,
-                          ),
-                          child: Image.asset(
-                            'assets/icon/icon_search.png',
-                            width: w / 5,
-                            height: h / 8,
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Text(
+                        "빠르게\n검색하기",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: base * 1.5,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("빠르게\n검색하기",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: base * 1.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                ),
-              ),
-            ],
-          )
+                      ),
+                    ),
+                  ],
+                )),
+          ),
         ],
       ),
-
     );
   }
 

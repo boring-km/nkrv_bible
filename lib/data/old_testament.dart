@@ -104,13 +104,13 @@ extension OldTestamentExtension on OldTestament {
       case OldTestament.Amo:
         return '아모스';
       case OldTestament.Oba:
-        return '오바다';
+        return '오바댜';
       case OldTestament.Jon:
         return '요나';
       case OldTestament.Mic:
         return '미가';
       case OldTestament.Nah:
-        return '나홈';
+        return '나훔';
       case OldTestament.Hab:
         return '하박국';
       case OldTestament.Zep:

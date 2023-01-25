@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nkrv_bible/screen/main/main_screen.dart';
+import 'package:nkrv_bible/utils/screen_util.dart';
 
 // ignore: use_key_in_widget_constructors
 class SplashScreen extends StatefulWidget {
@@ -50,6 +49,9 @@ class _SplashScreenState extends State<SplashScreen> {
         blurRadius: 10,
       )
     ];
+
+
+    setDarkStatusBarIcon();
 
     return Scaffold(
       backgroundColor: Colors.black,

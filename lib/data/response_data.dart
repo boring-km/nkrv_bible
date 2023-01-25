@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:nkrv_bible/data/bible_book_count.dart';
+import 'package:nkrv_bible/data/bible_list.dart';
 import 'bible_item.dart';
 
 part 'response_data.g.dart';

@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:nkrv_bible/data/new_testament.dart';
 import 'package:nkrv_bible/data/old_testament.dart';
 import 'package:nkrv_bible/res/custom_colors.dart';
-import 'package:nkrv_bible/screen/bible_screen.dart';
+import 'package:nkrv_bible/utils/screen_util.dart';
 
 class BookSelectScreen extends StatefulWidget {
   const BookSelectScreen({Key? key}) : super(key: key);
@@ -34,6 +34,7 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
   @override
   void initState() {
     setBookLabelList();
+    setLightStatusBarIcon();
     super.initState();
   }
 
@@ -73,9 +74,9 @@ class _BookSelectScreenState extends State<BookSelectScreen> {
                 padding: EdgeInsets.only(right: base * 2, bottom: base * 2),
                 child: FloatingActionButton(
                   onPressed: () {
-                    Get.to(BibleScreen(
-                      label: labelItems[selectedIndex],
-                    ));
+                    Get.toNamed('/bible', arguments: {
+                      'label': labelItems[selectedIndex],
+                    });
                   },
                   child: const Icon(CupertinoIcons.search),
                 ),

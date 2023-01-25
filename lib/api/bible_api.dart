@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nkrv_bible/data/bible_book_count.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
+import 'package:nkrv_bible/logger.dart';
 
 class BibleAPI {
 
-  static const baseUrl = 'http://192.168.35.2:3000';
+  static const baseUrl = 'http://192.168.45.27:3000';
 
   static Future<String> searchOne(String label, int paragraph, int chapter) async {
     final uri = Uri.parse('$baseUrl/searchOne/$label/$paragraph/$chapter');
@@ -54,6 +55,7 @@ class BibleAPI {
       var bibleItem = BibleItem(item['label'], item['chapter'], item['paragraph'], item['sentence']);
       data.add(bibleItem);
     }
+    Log.i(data);
     return data;
   }
 
@@ -67,6 +69,7 @@ class BibleAPI {
     for (var item in itemList) {
       data.add(BibleBookCount(label, item['chapter'], item['count']));
     }
+    Log.i(data);
     return data;
   }
 

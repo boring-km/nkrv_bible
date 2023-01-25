@@ -3,12 +3,13 @@ import 'dart:convert';
 
 import 'package:nkrv_bible/data/bible_book_count.dart';
 import 'package:nkrv_bible/data/bible_item.dart';
+import 'package:nkrv_bible/data/bible_list.dart';
 import 'package:nkrv_bible/data/response_data.dart';
 import 'package:nkrv_bible/data/result.dart';
 
 class BibleProvider extends GetConnect {
 
-  final localUrl = 'http://192.168.35.2:3000';
+  final localUrl = 'http://192.168.45.27:3000';
 
   void withToken(String token) {
     httpClient.addAuthenticator<Object?>((request) async {

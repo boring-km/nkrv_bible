@@ -15,14 +15,14 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # http 통신
-  http: 0.13.3
+  http: ^0.13.5
 
   # inner db
   sqflite: ^2.0.0+4
   path: ^1.8.0
 
   # getX
-  get: ^4.3.8
+  get: ^4.6.5
 
   # logger
   logger: ^1.1.0
@@ -36,19 +36,17 @@ dependencies:
   animated_text_kit: ^4.2.1
 
   # firebase
-  firebase_core: ^1.6.0
-  firebase_auth: ^3.1.1
-  flutter_web_auth: ^0.3.0
-  uuid: ^3.0.4
+  firebase_core: ^2.4.1
+  firebase_auth: ^4.2.5
+  flutter_web_auth: ^0.5.0
+  uuid: ^3.0.7
 
   # google sign in
-  google_sign_in: ^5.1.0
+  google_sign_in: ^5.4.3
 
   # 페이스북 로그인
-  flutter_facebook_auth: ^3.5.1
+  flutter_facebook_auth: ^5.0.7
 
-  # 카카오톡 로그인
-  kakao_flutter_sdk: ^0.7.1
   dio:
   json_annotation:
   package_info:
