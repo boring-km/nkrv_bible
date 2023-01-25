@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nkrv_bible/auth/firebase.dart';
 import 'package:nkrv_bible/controller/main_controller.dart';
@@ -21,14 +20,15 @@ class MainScreen extends GetView<MainController> {
 
     return Scaffold(
       appBar: buildAppBar(base),
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: buildMainView(controller.name),
     );
   }
 
   buildAppBar(double base) {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
+      elevation: 0,
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: Text(
@@ -36,6 +36,7 @@ class MainScreen extends GetView<MainController> {
           style: TextStyle(
             fontSize: base * 2.5,
             fontWeight: FontWeight.bold,
+            color: Colors.black
           ),
         ),
       ),
@@ -51,10 +52,13 @@ class MainScreen extends GetView<MainController> {
       return buildGuestView(w);
     }
 
-    return Stack(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         buildUserWidget(base, displayName),
-        buildButtons(w, h, base),
+        Expanded(child: buildButtons(w, h, base)),
       ],
     );
   }
@@ -170,7 +174,7 @@ class MainScreen extends GetView<MainController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             PopupMenuButton(
-              color: Colors.white,
+              color: Colors.black,
               offset: Offset(base * 4, base * 2),
               onSelected: (result) {
                 if (result == 1) {
@@ -182,7 +186,7 @@ class MainScreen extends GetView<MainController> {
               child: Icon(
                 CupertinoIcons.profile_circled,
                 size: base * 1.5,
-                color: Colors.white,
+                color: Colors.black,
               ),
               itemBuilder: (BuildContext context) {
                 var itemList = [
@@ -190,14 +194,14 @@ class MainScreen extends GetView<MainController> {
                     value: 1,
                     height: base,
                     padding: const EdgeInsets.all(0),
-                    textStyle: TextStyle(color: Colors.black, fontSize: base),
+                    textStyle: TextStyle(color: Colors.white, fontSize: base),
                     child: Row(
                       children: const [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: Icon(
                             Icons.logout,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                         ),
                         Text(
@@ -219,7 +223,7 @@ class MainScreen extends GetView<MainController> {
               style: TextStyle(
                 fontSize: base * 1.5,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ],
